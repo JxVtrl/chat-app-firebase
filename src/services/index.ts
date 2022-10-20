@@ -1,0 +1,1 @@
+export { getFakeUsers } from './getFakeUsers'
