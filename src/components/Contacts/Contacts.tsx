@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar, Flex, Input, InputGroup, InputLeftElement, Text, ModalBody, ModalHeader } from '@chakra-ui/react'
 import { SearchIcon } from '@chakra-ui/icons';
-import { iPhotos, iUser } from '../../App';
+import { iUser } from '../../App';
 
 interface iContacts {
   users: iUser[] | null

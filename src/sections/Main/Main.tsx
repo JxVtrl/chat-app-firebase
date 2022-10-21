@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar, Flex, Input, InputGroup, InputLeftElement, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@chakra-ui/react'
-import { iPhotos, iUser } from '../../App';
+import { iUser } from '../../App';
 import { SearchIcon } from '@chakra-ui/icons';
 import { Contacts, Chat } from '../../components';
 
