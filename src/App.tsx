@@ -9,14 +9,17 @@ export interface iUser {
   phone: string
   username: string
   website: string
+  photos: string
 }[]
 
 export default function App() {
   const [users, setUsers] = useState<iUser[] | null>(null)
+  const [contactSelected, setContactSelected] = useState<iUser | undefined>(undefined)
 
   useEffect(() => {
-    const getFakeUsers = () => {
-      fetch('https://jsonplaceholder.typicode.com/users')
+    const getFakeUsers = async () => {
+      let photos: any
+      await fetch('https://jsonplaceholder.typicode.com/users')
         .then(res =>
           res.json()
         )
@@ -26,6 +29,28 @@ export default function App() {
         .catch(err => {
             console.log(err)
         })
+      
+      await fetch('https://jsonplaceholder.typicode.com/photos')
+        .then(res =>
+          res.json()
+        )
+        .then(data => {
+          photos = data
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+      if (users && photos) {
+        const usersWithPhotos = users.map(user => {
+          const photo = photos?.find((photo: any) => photo.id === user.id)
+          return {
+            ...user,
+            photos: photo?.url
+          }
+        })
+        setUsers(usersWithPhotos)
+      }
     }
 
     getFakeUsers()
@@ -33,7 +58,7 @@ export default function App() {
 
   return (
     <Flex h='100vh' w='100vw' overflow='hidden' justify='center' align='center'>
-      <Main users={users} />
+      <Main users={users} setContact={setContactSelected} contact={contactSelected} />
     </Flex>
   )
 }

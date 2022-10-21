@@ -1,8 +1,12 @@
 import React from 'react';
 import { Avatar, Flex, Input, InputGroup, InputLeftElement, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@chakra-ui/react'
+import { iUser } from '../../App';
 
+interface iChat {
+  contact: iUser | undefined
+}
 
-export const Chat: React.FC = () => {
+export const Chat: React.FC<iChat> = ({ contact }) => {
   return (
     <Flex w='100%' direction='column'>
       <ModalHeader as={Flex} direction='column' w='100%' bgColor='silver'>
