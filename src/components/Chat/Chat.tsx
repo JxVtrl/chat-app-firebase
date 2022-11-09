@@ -11,9 +11,16 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  InputRightElement,
+  Button,
 } from "@chakra-ui/react";
 import { useApp } from "../../context";
-import { ChevronLeftIcon, SearchIcon } from "@chakra-ui/icons";
+import {
+  ArrowRightIcon,
+  CheckIcon,
+  ChevronLeftIcon,
+  SearchIcon,
+} from "@chakra-ui/icons";
 import bgDefault from "../../assets/img/whatsApp.jpeg";
 import { useDevice } from "../../hooks";
 
@@ -22,7 +29,7 @@ export const Chat: React.FC = () => {
   const { contactSelected, setContactSelected }: any = useApp();
 
   return (
-    <Flex w="100%" direction="column" overflow='hidden'>
+    <Flex w="100%" direction="column" overflow="hidden">
       <Flex direction="row" h="85px" px="16px" w="100%" bgColor="#dddddddd">
         {contactSelected && (
           <Flex w="100%" gap="20px" align="center">
@@ -40,10 +47,7 @@ export const Chat: React.FC = () => {
                   online
                 </Text>
               </Flex>
-              <Flex gap="35px" align="center">
-                <SearchIcon />
-                <i className="fa-solid fa-ellipsis-vertical"></i>
-              </Flex>
+              <SearchIcon />
             </Flex>
           </Flex>
         )}
@@ -56,11 +60,12 @@ export const Chat: React.FC = () => {
         bgSize="contain"
       ></Flex>
 
-      <Flex w="100%" h="45px" gap="15px" align="center" px="16px">
+      <Flex w="100%" h="65px" gap="15px" align="center" px="16px">
         <i className="fa-solid fa-face-grin-wide fa-lg"></i>
+        <Input placeholder="Escreva algo..." />
         <i className="fa-solid fa-paperclip fa-lg"></i>
-        <Input placeholder="Mensagem" />
         <i className="fa-solid fa-microphone fa-lg"></i>
+        <Button colorScheme="blue">Enviar</Button>
       </Flex>
     </Flex>
   );

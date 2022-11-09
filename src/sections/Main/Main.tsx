@@ -9,7 +9,7 @@ export const Main: React.FC = () => {
   const { contactSelected }: any = useApp();
 
   return (
-    <Flex h="100%" w="100%" overflow='hidden'>
+    <Flex h="100%" w="100%" overflow="hidden">
       {isMobile ? (
         contactSelected ? (
           <Chat />

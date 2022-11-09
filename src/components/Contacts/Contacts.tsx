@@ -9,7 +9,7 @@ import {
   ModalBody,
   ModalHeader,
 } from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
+import { EditIcon, SearchIcon } from "@chakra-ui/icons";
 import { useApp } from "../../context";
 import { useDevice } from "../../hooks";
 
@@ -25,8 +25,8 @@ export const Contacts: React.FC = () => {
   };
 
   return (
-    <Flex direction="column" w={isMobile ? "100%" : "33%"} overflow='hidden'>
-      <Flex direction="column" w="100%" gap="15px" p="0">
+    <Flex direction="column" w={isMobile ? "100%" : "33%"} overflow="hidden">
+      <Flex direction="column" w="100%" p="0">
         <Flex
           borderRight="1px solid #9b9b9b"
           px="16px"
@@ -38,18 +38,13 @@ export const Contacts: React.FC = () => {
         >
           <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
           <Flex color="#474747" gap="35px">
-            <Flex w="20px" justify="center" align="center">
-              <i className="fa-solid fa-circle-notch" />
-            </Flex>
-            <Flex w="20px" justify="center" align="center">
-              <i className="fa-solid fa-message" />
-            </Flex>
+            <EditIcon cursor="pointer" />
             <Flex w="20px" justify="center" align="center">
               <i className="fa-solid fa-ellipsis-vertical" />
             </Flex>
           </Flex>
         </Flex>
-        <Flex w="100%" align="center" gap="15px" p="8px 14px">
+        <Flex w="100%" align="center" p="8px 14px">
           <InputGroup>
             <InputLeftElement
               pointerEvents="none"
@@ -60,14 +55,12 @@ export const Contacts: React.FC = () => {
               _placeholder={{
                 fontSize: "14px",
               }}
-              placeholder="Pesquisar ou começar uma nova conversa"
+              placeholder="Pesquisar contato"
             />
           </InputGroup>
-
-          <i className="fa-solid fa-filter" />
         </Flex>
       </Flex>
-      <Flex overflow="auto" p="0" direction="column">
+      <Flex overflowY="scroll" overflowX="hidden" p="0" direction="column">
         {users?.map((item: any) => (
           <Flex direction="column" key={item.id}>
             <hr />
