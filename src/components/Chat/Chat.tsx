@@ -13,19 +13,27 @@ import {
   ModalHeader,
 } from "@chakra-ui/react";
 import { useApp } from "../../context";
-import { SearchIcon } from "@chakra-ui/icons";
+import { ChevronLeftIcon, SearchIcon } from "@chakra-ui/icons";
 import bgDefault from "../../assets/img/whatsApp.jpeg";
+import { useDevice } from "../../hooks";
 
 export const Chat: React.FC = () => {
-  const { contactSelected }: any = useApp();
+  const { isMobile } = useDevice();
+  const { contactSelected, setContactSelected }: any = useApp();
 
   return (
     <Flex w="100%" direction="column">
       <ModalHeader as={Flex} direction="row" w="100%" bgColor="#dddddddd">
         {contactSelected && (
-          <>
+          <Flex w="100%" gap="20px" align="center">
+            {isMobile && (
+              <ChevronLeftIcon
+                cursor="pointer"
+                onClick={() => setContactSelected(undefined)}
+              />
+            )}
             <Avatar name={contactSelected?.name} />
-            <Flex ml="20px" w="100%" align="center" justify="space-between">
+            <Flex w="100%" align="center" justify="space-between">
               <Flex direction="column">
                 <Text fontSize="16px">{contactSelected?.name}</Text>
                 <Text fontSize="12px" fontWeight="400" letterSpacing="1px">
@@ -37,7 +45,7 @@ export const Chat: React.FC = () => {
                 <i className="fa-solid fa-ellipsis-vertical"></i>
               </Flex>
             </Flex>
-          </>
+          </Flex>
         )}
       </ModalHeader>
       <ModalBody

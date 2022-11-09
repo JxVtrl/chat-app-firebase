@@ -13,8 +13,13 @@ import {
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { Contacts, Chat } from "../../components";
+import { useDevice } from "../../hooks";
+import { useApp } from "../../context";
 
 export const Main: React.FC = () => {
+  const { isMobile } = useDevice();
+  const { contactSelected }: any = useApp();
+
   return (
     <Modal isOpen={true} onClose={() => null}>
       <ModalContent
@@ -25,8 +30,18 @@ export const Main: React.FC = () => {
         as={Flex}
         flexDirection="row"
       >
-        <Contacts />
-        <Chat />
+        {isMobile ? (
+          contactSelected ? (
+            <Chat />
+          ) : (
+            <Contacts />
+          )
+        ) : (
+          <>
+            <Contacts />
+            <Chat />
+          </>
+        )}
       </ModalContent>
     </Modal>
   );

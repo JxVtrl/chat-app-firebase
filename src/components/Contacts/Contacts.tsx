@@ -11,8 +11,10 @@ import {
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { useApp } from "../../context";
+import { useDevice } from "../../hooks";
 
 export const Contacts: React.FC = () => {
+  const { isMobile } = useDevice();
   const { users, setContactSelected }: any = useApp();
 
   const handleContactSelection = (id: number) => {
@@ -23,7 +25,7 @@ export const Contacts: React.FC = () => {
   };
 
   return (
-    <Flex direction="column" w={"33%"}>
+    <Flex direction="column" w={isMobile ? "100%" : "33%"}>
       <ModalHeader as={Flex} direction="column" w="100%" gap="15px" p="0">
         <Flex
           borderRight="1px solid #9b9b9b"
