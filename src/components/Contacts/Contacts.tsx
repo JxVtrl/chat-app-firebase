@@ -25,7 +25,7 @@ export const Contacts: React.FC = () => {
   };
 
   return (
-    <Flex direction="column" w={isMobile ? "100%" : "33%"}>
+    <Flex direction="column" w={isMobile ? "100%" : "33%"} overflow='hidden'>
       <Flex direction="column" w="100%" gap="15px" p="0">
         <Flex
           borderRight="1px solid #9b9b9b"
