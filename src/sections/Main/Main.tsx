@@ -24,8 +24,8 @@ export const Main: React.FC = () => {
     <Modal isOpen={true} onClose={() => null}>
       <ModalContent
         w="100%"
-        maxW="80%"
-        maxH="85%"
+        maxW={isMobile ? "100%" : "80%"}
+        maxH={isMobile ? "100%" : "85%"}
         h="100%"
         as={Flex}
         flexDirection="row"
