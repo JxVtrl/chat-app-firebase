@@ -15,10 +15,13 @@ export function Register() {
   return (
     <Modal isOpen={true} onClose={() => null}>
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>
+      <ModalContent placeSelf="center" h="60vh">
+        <ModalHeader textAlign="center">
           <Text fontSize="2xl" fontWeight="bold">
-            Faça seu Registro
+            Jx's Chat
+          </Text>
+          <Text fontSize="sm" fontWeight="medium">
+            Register
           </Text>
         </ModalHeader>
         <ModalBody></ModalBody>
