@@ -23,7 +23,7 @@ export const Chat: React.FC = () => {
 
   return (
     <Flex w="100%" direction="column">
-      <ModalHeader as={Flex} direction="row" w="100%" bgColor="#dddddddd">
+      <Flex direction="row" h="85px" px="16px" w="100%" bgColor="#dddddddd">
         {contactSelected && (
           <Flex w="100%" gap="20px" align="center">
             {isMobile && (
@@ -47,21 +47,21 @@ export const Chat: React.FC = () => {
             </Flex>
           </Flex>
         )}
-      </ModalHeader>
-      <ModalBody
+      </Flex>
+      <Flex
         w="100%"
         h="100%"
         bgImage={bgDefault}
         bgPos="center"
         bgSize="contain"
-      ></ModalBody>
+      ></Flex>
 
-      <ModalFooter w="100%" h="45px" gap="15px">
+      <Flex w="100%" h="45px" gap="15px" align="center" px="16px">
         <i className="fa-solid fa-face-grin-wide fa-lg"></i>
         <i className="fa-solid fa-paperclip fa-lg"></i>
         <Input placeholder="Mensagem" />
         <i className="fa-solid fa-microphone fa-lg"></i>
-      </ModalFooter>
+      </Flex>
     </Flex>
   );
 };

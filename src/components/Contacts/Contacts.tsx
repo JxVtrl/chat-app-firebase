@@ -26,11 +26,12 @@ export const Contacts: React.FC = () => {
 
   return (
     <Flex direction="column" w={isMobile ? "100%" : "33%"}>
-      <ModalHeader as={Flex} direction="column" w="100%" gap="15px" p="0">
+      <Flex direction="column" w="100%" gap="15px" p="0">
         <Flex
           borderRight="1px solid #9b9b9b"
-          p="16px"
+          px="16px"
           w="100%"
+          h="72px"
           align="center"
           justify="space-between"
           bgColor="#dddddddd"
@@ -65,8 +66,8 @@ export const Contacts: React.FC = () => {
 
           <i className="fa-solid fa-filter" />
         </Flex>
-      </ModalHeader>
-      <ModalBody overflow="auto" p="0">
+      </Flex>
+      <Flex overflow="auto" p="0" direction="column">
         {users?.map((item: any) => (
           <Flex direction="column" key={item.id}>
             <hr />
@@ -80,7 +81,7 @@ export const Contacts: React.FC = () => {
               overflow="hidden"
             >
               <Avatar name={item.name} src={item.photos} mr="15px" />
-              <Flex w="100%" direction="column">
+              <Flex w="100%" direction="column" justify="center">
                 <Text>{item.name}</Text>
                 {/* <Text 
                     overflow='hidden' w='90%' textOverflow='ellipsis' whiteSpace='nowrap'>{photos ? photos[item.id].title : undefined}</Text> */}
@@ -88,7 +89,7 @@ export const Contacts: React.FC = () => {
             </Flex>
           </Flex>
         ))}
-      </ModalBody>
+      </Flex>
     </Flex>
   );
 };
