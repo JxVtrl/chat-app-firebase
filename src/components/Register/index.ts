@@ -1,1 +1,1 @@
-export { Register as RegisterContent} from './Register'
+export { Register as RegisterContent } from "./Register";

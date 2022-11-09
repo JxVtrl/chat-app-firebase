@@ -7,32 +7,24 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-    Button,
+  Button,
   Text,
-} from '@chakra-ui/react'
-
+} from "@chakra-ui/react";
 
 export function Register() {
+  return (
+    <Modal isOpen={true} onClose={() => null}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>
+          <Text fontSize="2xl" fontWeight="bold">
+            Faça seu Registro
+          </Text>
+        </ModalHeader>
+        <ModalBody></ModalBody>
 
-    return (
-        <Modal isOpen={true} onClose={()=> null}>
-        <ModalOverlay />
-        <ModalContent>
-                <ModalHeader>
-                    <Text fontSize='2xl' fontWeight='bold'>
-                        Faça seu Registro
-                    </Text>
-                </ModalHeader>
-            <ModalBody>
-                    
-
-            </ModalBody>
-
-            <ModalFooter>
-            
-            </ModalFooter>
-        </ModalContent>
-      </Modal>
-        
-    )
+        <ModalFooter></ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
 }
