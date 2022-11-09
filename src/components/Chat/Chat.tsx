@@ -22,7 +22,7 @@ export const Chat: React.FC = () => {
   const { contactSelected, setContactSelected }: any = useApp();
 
   return (
-    <Flex w="100%" direction="column">
+    <Flex w="100%" direction="column" overflow='hidden'>
       <Flex direction="row" h="85px" px="16px" w="100%" bgColor="#dddddddd">
         {contactSelected && (
           <Flex w="100%" gap="20px" align="center">
