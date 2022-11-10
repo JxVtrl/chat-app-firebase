@@ -23,6 +23,10 @@ import {
 } from "@chakra-ui/icons";
 import bgDefault from "../../assets/img/whatsApp.jpeg";
 import { useDevice } from "../../hooks";
+import { Message } from "../Message";
+
+import mockChat from "../../mocks/my-chat.json";
+import { iMessage } from "../../interfaces/Message.interface";
 
 export const Chat: React.FC = () => {
   const { isMobile } = useDevice();
@@ -43,9 +47,6 @@ export const Chat: React.FC = () => {
             <Flex w="100%" align="center" justify="space-between">
               <Flex direction="column">
                 <Text fontSize="16px">{contactSelected?.name}</Text>
-                <Text fontSize="12px" fontWeight="400" letterSpacing="1px">
-                  online
-                </Text>
               </Flex>
               <SearchIcon />
             </Flex>
@@ -58,7 +59,18 @@ export const Chat: React.FC = () => {
         bgImage={bgDefault}
         bgPos="center"
         bgSize="contain"
-      ></Flex>
+        direction="column"
+        px="25px"
+      >
+        {mockChat.messages.map((item: iMessage) => (
+          <Message
+            user={item.user}
+            message={item.text}
+            timestamp={item.timestamp}
+            active={true}
+          />
+        ))}
+      </Flex>
 
       <Flex w="100%" h="65px" gap="15px" align="center" px="16px">
         <i className="fa-solid fa-face-grin-wide fa-lg"></i>
