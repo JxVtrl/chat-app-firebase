@@ -1,13 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import { Flex } from "@chakra-ui/react";
-import { useApp } from "../../../../context";
+import { useApp, useAuth } from "../../../../context";
 import mockChat from "../../../../mocks/my-chat.json";
 import bgDefault from "../../../../assets/img/whatsApp.jpeg";
 import { Message } from "../../../Message";
 import { iMessage } from "../../../../interfaces/Message.interface";
 
 export const ChatBody: React.FC = () => {
-  const { contactSelected, user }: any = useApp();
+  const { user }: any = useAuth();
+  const { contactSelected }: any = useApp();
   const bottomRef = useRef<null | HTMLDivElement>(null);
 
   useEffect(() => {
@@ -26,17 +27,18 @@ export const ChatBody: React.FC = () => {
       gap="15px"
       p="15px 25px"
     >
-      {mockChat.messages.map(
-        ({ user: { name, avatar }, text, timestamp, id }: iMessage) => (
-          <Message
-            key={id}
-            user={{ name, avatar }}
-            message={text}
-            timestamp={timestamp}
-            active={name === user?.name}
-          />
-        )
-      )}
+      {contactSelected &&
+        mockChat.messages.map(
+          ({ user: { name, avatar }, text, timestamp, id }: iMessage) => (
+            <Message
+              key={id}
+              user={{ name, avatar }}
+              message={text}
+              timestamp={timestamp}
+              active={name === user?.name}
+            />
+          )
+        )}
       <div ref={bottomRef} />
     </Flex>
   );

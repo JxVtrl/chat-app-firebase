@@ -1,0 +1,9 @@
+{
+  "error": [
+    {
+      "id": 0,
+      "code": "auth/email-already-in-use",
+      "message": "E-mail já em uso"
+    }
+  ]
+}

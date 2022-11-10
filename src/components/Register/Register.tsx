@@ -16,50 +16,30 @@ import {
   FormLabel,
   Input,
   FormErrorMessage,
+  Alert,
+  AlertTitle,
+  AlertDescription,
+  AlertIcon,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
-import { useApp } from "../../context";
+import { useAuth } from "../../context";
+import {
+  validateName,
+  validateConfirm,
+  validateEmail,
+  validatePassword,
+} from "../../helpers";
+import errorCodes from "../../data/error-codes.json";
 
 export function Register() {
-  const { handleRegister }: any = useApp();
+  const { handleRegister, registerError }: any = useAuth();
 
-  function validateName(value: string) {
-    let error;
-    if (!value) {
-      error = "Nome é obrigatório";
+  const findErrorIndex = (item: any) => {
+    for (let i = 0; i < errorCodes.error.length; i++) {
+      if (errorCodes.error[i].code === item) return errorCodes.error[i].message;
     }
-    return error;
-  }
-
-  function validateEmail(value: string) {
-    let error;
-    if (!value) {
-      error = "E-mail é obrigatório";
-    } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
-      error = "E-mail inválido";
-    }
-    return error;
-  }
-
-  function validatePassword(value: string) {
-    let error;
-    if (!value) {
-      error = "Senha é obrigatória";
-    } else if (value.length < 6) {
-      error = "Senha deve ter no mínimo 6 caracteres";
-    }
-    return error;
-  }
-
-  function validateConfirm(value: string, password: string) {
-    let error;
-    if (!value) {
-      error = "Confirmação de senha é obrigatória";
-    } else if (value !== password) {
-      error = "Senhas não conferem";
-    }
-    return error;
-  }
+    return null;
+  };
 
   return (
     <Modal isOpen={true} onClose={() => null}>
@@ -74,10 +54,18 @@ export function Register() {
           </Text>
         </ModalHeader>
         <ModalBody>
+          {registerError && (
+            <Alert status="error">
+              <AlertIcon />
+              <AlertTitle>Erro!</AlertTitle>
+              <AlertDescription>
+                {findErrorIndex(registerError.code)}
+              </AlertDescription>
+            </Alert>
+          )}
           <Formik
             initialValues={{ name: "", email: "", password: "", confirm: "" }}
             onSubmit={(values, actions) => {
-              console.log(values);
               setTimeout(() => {
                 handleRegister(values);
                 actions.setSubmitting(false);

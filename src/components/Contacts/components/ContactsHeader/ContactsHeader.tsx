@@ -6,6 +6,11 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  IconButton,
 } from "@chakra-ui/react";
 
 export const ContactsHeader: React.FC = () => {
@@ -21,11 +26,18 @@ export const ContactsHeader: React.FC = () => {
         bgColor="#dddddddd"
       >
         <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-        <Flex color="#474747" gap="35px">
-          <EditIcon cursor="pointer" />
-          <Flex w="20px" justify="center" align="center">
-            <i className="fa-solid fa-ellipsis-vertical" />
-          </Flex>
+        <Flex color="#474747" gap="35px" align="center">
+          <EditIcon cursor="pointer" w="20px" />
+          <Menu>
+            <MenuButton w="20px">
+              <i className="fa-solid fa-ellipsis-vertical" />
+            </MenuButton>
+            <MenuList>
+              <MenuItem>Perfil</MenuItem>
+              <MenuItem>Trocar tema</MenuItem>
+              <MenuItem>Configurações</MenuItem>
+            </MenuList>
+          </Menu>
         </Flex>
       </Flex>
 
