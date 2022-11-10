@@ -18,14 +18,13 @@ export const ChatBody: React.FC = () => {
     <Flex
       bgImage={bgDefault}
       bgPos="center"
-      px="25px"
       bgSize="contain"
       w="100%"
       h="85%"
       overflowY="scroll"
       direction="column"
       gap="15px"
-      pb="15px"
+      p="15px 25px"
     >
       {mockChat.messages.map(
         ({ user: { name, avatar }, text, timestamp, id }: iMessage) => (
