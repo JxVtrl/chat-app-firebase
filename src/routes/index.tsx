@@ -8,7 +8,8 @@ import {
   useNavigate,
 } from "react-router-dom";
 
-import { ChatPage, Login, Register } from "../pages";
+import { Home, Login, Register } from "../pages";
+import { Private } from "./Private";
 
 export const routesObject = {
   home: "/",
@@ -21,7 +22,14 @@ const RoutesDeclaration: React.FC = () => {
 
   return (
     <Routes location={location} key={location.pathname}>
-      <Route path={routesObject.home} element={<ChatPage />} />
+      <Route
+        path={routesObject.home}
+        element={
+          <Private>
+            <Home />
+          </Private>
+        }
+      />
       <Route path={routesObject.login} element={<Login />} />
       <Route path={routesObject.register} element={<Register />} />
       <Route

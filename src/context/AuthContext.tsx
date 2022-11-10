@@ -6,7 +6,10 @@ import React, {
   useRef,
 } from "react";
 import { auth, storage, db } from "../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { iUser } from "../interfaces";
 import { UserInfo } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -20,13 +23,14 @@ interface AuthError {
 const AuthContext = createContext({});
 
 export function AuthProvider({ children }: any) {
-  const [user, setUser] = useState<UserInfo | undefined>(undefined);
+  const [user, setUser] = useState<UserInfo | null>(null);
   const [registerError, setRegisterError] = useState<AuthError | undefined>(
     undefined
   );
 
   // Criando a referencia para a coleção desejada
   const usersCollection = collection(db, "users");
+  const chatsCollection = collection(db, "chats");
 
   const handleRegister = async (values: any, redirect: any) => {
     setRegisterError(undefined);
@@ -46,7 +50,10 @@ export function AuthProvider({ children }: any) {
           photoURL: "",
         });
 
-        // Redirecionando para /login
+        // Criando um documento especifico de chat p/ usuario criado
+        await setDoc(doc(chatsCollection, userCredential.user.uid), {});
+
+        // Redirecionando para home
         redirect();
       }
     } catch (error: any) {
@@ -54,6 +61,16 @@ export function AuthProvider({ children }: any) {
       setRegisterError(error);
     }
   };
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    return () => {
+      unsub();
+    };
+  }, []);
 
   const value = {
     user,
