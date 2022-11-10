@@ -5,6 +5,7 @@ import {
   Route,
   useLocation,
   Navigate,
+  useNavigate,
 } from "react-router-dom";
 
 import { ChatPage, Login, Register } from "../pages";

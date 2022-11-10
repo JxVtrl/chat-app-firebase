@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   Modal,
@@ -34,9 +34,15 @@ import errorCodes from "../../data/error-codes.json";
 export function Register() {
   const { handleRegister, registerError }: any = useAuth();
 
+  const navigate = useNavigate();
+
   const findErrorIndex = (item: any) => {
     for (let i = 0; i < errorCodes.error.length; i++) {
-      if (errorCodes.error[i].code === item) return errorCodes.error[i].message;
+      if (errorCodes.error[i].code === item.code) {
+        if (errorCodes.error[i].message !== "")
+          return errorCodes.error[i].message;
+        else return item.code;
+      }
     }
     return null;
   };
@@ -55,11 +61,11 @@ export function Register() {
         </ModalHeader>
         <ModalBody>
           {registerError && (
-            <Alert status="error">
+            <Alert status="error" my="10px">
               <AlertIcon />
               <AlertTitle>Erro!</AlertTitle>
               <AlertDescription>
-                {findErrorIndex(registerError.code)}
+                {findErrorIndex(registerError)}
               </AlertDescription>
             </Alert>
           )}
@@ -67,7 +73,7 @@ export function Register() {
             initialValues={{ name: "", email: "", password: "", confirm: "" }}
             onSubmit={(values, actions) => {
               setTimeout(() => {
-                handleRegister(values);
+                handleRegister(values, () => navigate("/login"));
                 actions.setSubmitting(false);
               }, 1000);
             }}
@@ -171,7 +177,7 @@ export function Register() {
                       props.values.name === ""
                     }
                   >
-                    Fazer Login
+                    Fazer Registro
                   </Button>
                 </Flex>
               </Form>
