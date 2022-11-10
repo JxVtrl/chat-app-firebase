@@ -62,6 +62,8 @@ export function AuthProvider({ children }: any) {
     }
   };
 
+  const handleLogin = async (values: any, redirect: any) => {};
+
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
       setUser(user);

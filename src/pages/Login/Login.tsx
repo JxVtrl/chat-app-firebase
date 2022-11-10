@@ -15,11 +15,12 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
-import { Link } from "react-router-dom";
-import { useApp } from "../../context";
+import { Link, useNavigate } from "react-router-dom";
+import { useApp, useAuth } from "../../context";
 
 export function Login() {
-  const { handleLogin }: any = useApp();
+  const { handleLogin }: any = useAuth();
+  const navigate = useNavigate();
 
   function validateEmail(value: string) {
     let error;
@@ -59,7 +60,7 @@ export function Login() {
                 console.log(values);
                 setTimeout(() => {
                   // alert(JSON.stringify(values, null, 2));
-                  handleLogin(values);
+                  handleLogin(values, () => navigate("/"));
                   actions.setSubmitting(false);
                 }, 1000);
               }}

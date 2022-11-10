@@ -13,6 +13,8 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { useApp, useAuth } from "../../../../context";
+import { signOut } from "firebase/auth";
+import { auth } from "../../../../firebase";
 
 export const ContactsHeader: React.FC = () => {
   const { setMenuOpened }: any = useApp();
@@ -51,7 +53,7 @@ export const ContactsHeader: React.FC = () => {
               <MenuItem onClick={() => setMenuOpened(1)}>
                 Configurações
               </MenuItem>
-              <MenuItem onClick={handleOut}>Sair</MenuItem>
+              <MenuItem onClick={() => signOut(auth)}>Sair</MenuItem>
             </MenuList>
           </Menu>
         </Flex>
