@@ -6,8 +6,6 @@ import {
   InputGroup,
   InputLeftElement,
   Text,
-  ModalBody,
-  ModalHeader,
 } from "@chakra-ui/react";
 import { EditIcon, SearchIcon } from "@chakra-ui/icons";
 import { useApp } from "../../context";
