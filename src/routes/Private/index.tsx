@@ -9,8 +9,8 @@ interface Props {
 export const Private: FC<Props> = ({ children }) => {
   const { user }: any = useAuth();
 
-  if (!user?.uid) {
-    return <Navigate to={"/login"} replace />;
-  }
+  // if (!user?.uid) {
+  //   return <Navigate to={"/login"} replace />;
+  // }
   return children;
 };

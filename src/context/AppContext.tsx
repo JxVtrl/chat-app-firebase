@@ -10,6 +10,7 @@ import { iUser } from "../interfaces";
 const AppContext = createContext({});
 
 export function AppProvider({ children }: any) {
+  const [menuOpened, setMenuOpened] = useState<0 | 1 | undefined>(undefined);
   const [contacts, setContacts] = useState<iUser[] | null>(null);
   const [contactSelected, setContactSelected] = useState<iUser | undefined>(
     undefined
@@ -56,6 +57,8 @@ export function AppProvider({ children }: any) {
     setContactSelected,
     contacts,
     setContacts,
+    setMenuOpened,
+    menuOpened,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

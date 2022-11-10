@@ -12,8 +12,16 @@ import {
   MenuItem,
   IconButton,
 } from "@chakra-ui/react";
+import { useApp, useAuth } from "../../../../context";
 
 export const ContactsHeader: React.FC = () => {
+  const { setMenuOpened }: any = useApp();
+  const { user }: any = useAuth();
+
+  const handleTheme = () => {};
+
+  const handleOut = () => {};
+
   return (
     <Flex direction="column" w="100%" p="0">
       <Flex
@@ -25,7 +33,12 @@ export const ContactsHeader: React.FC = () => {
         justify="space-between"
         bgColor="#dddddddd"
       >
-        <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+        <Avatar
+          name={user?.name}
+          src={user?.photoURL}
+          cursor="pointer"
+          onClick={() => setMenuOpened(0)}
+        />
         <Flex color="#474747" gap="35px" align="center">
           <EditIcon cursor="pointer" w="20px" />
           <Menu>
@@ -33,9 +46,12 @@ export const ContactsHeader: React.FC = () => {
               <i className="fa-solid fa-ellipsis-vertical" />
             </MenuButton>
             <MenuList>
-              <MenuItem>Perfil</MenuItem>
-              <MenuItem>Trocar tema</MenuItem>
-              <MenuItem>Configurações</MenuItem>
+              <MenuItem onClick={() => setMenuOpened(0)}>Perfil</MenuItem>
+              <MenuItem onClick={handleTheme}>Trocar tema</MenuItem>
+              <MenuItem onClick={() => setMenuOpened(1)}>
+                Configurações
+              </MenuItem>
+              <MenuItem onClick={handleOut}>Sair</MenuItem>
             </MenuList>
           </Menu>
         </Flex>
