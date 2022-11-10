@@ -15,11 +15,11 @@ import { useDevice } from "../../hooks";
 
 export const Contacts: React.FC = () => {
   const { isMobile } = useDevice();
-  const { users, setContactSelected }: any = useApp();
+  const { contacts, setContactSelected }: any = useApp();
 
   const handleContactSelection = (id: number) => {
-    if (users) {
-      const user = users.find((user: any) => user.id === id);
+    if (contacts) {
+      const user = contacts.find((contact: any) => contact.id === id);
       setContactSelected(user);
     }
   };
@@ -61,7 +61,7 @@ export const Contacts: React.FC = () => {
         </Flex>
       </Flex>
       <Flex overflowY="scroll" overflowX="hidden" p="0" direction="column">
-        {users?.map((item: any) => (
+        {contacts?.map((item: any) => (
           <Flex direction="column" key={item.id}>
             <hr />
             <Flex

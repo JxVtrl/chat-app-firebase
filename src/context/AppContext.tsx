@@ -10,14 +10,10 @@ import { iUser } from "../interfaces";
 const AppContext = createContext({});
 
 export function AppProvider({ children }: any) {
-  const [users, setUsers] = useState<iUser[] | null>(null);
+  const [contacts, setContacts] = useState<iUser[] | null>(null);
   const [contactSelected, setContactSelected] = useState<iUser | undefined>(
     undefined
   );
-
-  useEffect(() => {
-    console.log(contactSelected);
-  }, [contactSelected]);
 
   useEffect(() => {
     const getFakeUsers = async () => {
@@ -25,7 +21,7 @@ export function AppProvider({ children }: any) {
       await fetch("https://jsonplaceholder.typicode.com/users")
         .then((res) => res.json())
         .then((data) => {
-          setUsers(data);
+          setContacts(data);
         })
         .catch((err) => {
           console.log(err);
@@ -40,15 +36,15 @@ export function AppProvider({ children }: any) {
           console.log(err);
         });
 
-      if (users && photos) {
-        const usersWithPhotos = users.map((user) => {
-          const photo = photos?.find((photo: any) => photo.id === user.id);
+      if (contacts && photos) {
+        const usersWithPhotos = contacts.map((contact) => {
+          const photo = photos?.find((photo: any) => photo.id === contact.id);
           return {
-            ...user,
+            ...contact,
             photos: photo?.url,
           };
         });
-        setUsers(usersWithPhotos);
+        setContacts(usersWithPhotos);
       }
     };
 
@@ -58,8 +54,8 @@ export function AppProvider({ children }: any) {
   const value = {
     contactSelected,
     setContactSelected,
-    users,
-    setUsers,
+    contacts,
+    setContacts,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
