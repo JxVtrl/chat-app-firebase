@@ -32,8 +32,8 @@ export const Profile: React.FC = () => {
       const userRef = ref(storage, `users/${user?.uid}/avatar`);
       const uploadPhoto = uploadBytesResumable(userRef, photo);
 
-      uploadPhoto.then((snapshot) => { 
-        getDownloadURL(snapshot.ref).then((url) => {
+      uploadPhoto.then(async (snapshot) => { 
+        await getDownloadURL(snapshot.ref).then((url) => {
           setPhotoURL(url);
             handleUpdateAvatar(url);
         });
