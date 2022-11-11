@@ -1,103 +1,58 @@
 {
-  "messages": [
+  "chats": [
     {
       "id": 0,
-      "user": {
-        "name": "ada",
-        "avatar": ""
-      },
-      "text": "ola",
-      "timestamp": ""
+      "uid": "",
+      "chat": [
+        {
+          "id": 0,
+          "message": "Oii",
+          "active": true,
+          "timestamp": "2019-01-01T00:00:00.000Z"
+        },
+        {
+          "id": 1,
+          "message": "Olá",
+          "active": false,
+          "timestamp": "2019-01-01T00:00:00.000Z"
+        }
+      ]
     },
     {
       "id": 1,
-      "user": {
-        "name": "",
-        "avatar": ""
-      },
-      "text": "Tudo bem?",
-      "timestamp": ""
+      "uid": "",
+      "chat": [
+        {
+          "id": 0,
+          "message": "Oii",
+          "active": true,
+          "timestamp": "2019-01-01T00:00:00.000Z"
+        },
+        {
+          "id": 1,
+          "message": "Olá",
+          "active": false,
+          "timestamp": "2019-01-01T00:00:00.000Z"
+        }
+      ]
     },
     {
       "id": 2,
-      "user": {
-        "name": "",
-        "avatar": ""
-      },
-      "text": "como vc ta",
-      "timestamp": ""
-    },
-    {
-      "id": 3,
-      "user": {
-        "name": "",
-        "avatar": ""
-      },
-      "text": "Tudo bem?",
-      "timestamp": ""
-    },
-    {
-      "id": 4,
-      "user": {
-        "name": "",
-        "avatar": ""
-      },
-      "text": "como vc ta",
-      "timestamp": ""
-    },
-    {
-      "id": 5,
-      "user": {
-        "name": "",
-        "avatar": ""
-      },
-      "text": "Tudo bem?",
-      "timestamp": ""
-    },
-    {
-      "id": 6,
-      "user": {
-        "name": "",
-        "avatar": ""
-      },
-      "text": "como vc ta",
-      "timestamp": ""
-    },
-    {
-      "id": 7,
-      "user": {
-        "name": "",
-        "avatar": ""
-      },
-      "text": "Tudo bem?",
-      "timestamp": ""
-    },
-    {
-      "id": 8,
-      "user": {
-        "name": "",
-        "avatar": ""
-      },
-      "text": "como vc ta",
-      "timestamp": ""
-    },
-    {
-      "id": 9,
-      "user": {
-        "name": "",
-        "avatar": ""
-      },
-      "text": "Tudo bem?",
-      "timestamp": ""
-    },
-    {
-      "id": 10,
-      "user": {
-        "name": "",
-        "avatar": ""
-      },
-      "text": "como vc ta",
-      "timestamp": ""
+      "uid": "",
+      "chat": [
+        {
+          "id": 0,
+          "message": "Oii",
+          "active": true,
+          "timestamp": "2019-01-01T00:00:00.000Z"
+        },
+        {
+          "id": 1,
+          "message": "Olá",
+          "active": false,
+          "timestamp": "2019-01-01T00:00:00.000Z"
+        }
+      ]
     }
   ]
 }

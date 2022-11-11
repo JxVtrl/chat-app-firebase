@@ -119,8 +119,8 @@ export function AuthProvider({ children }: any) {
   }, []);
 
   useEffect(() => {
-    console.log(user)
-  },[user])
+    console.log(user);
+  }, [user]);
 
   const value = {
     user,
@@ -130,7 +130,7 @@ export function AuthProvider({ children }: any) {
     registerError,
     LoginError,
     usersCollection,
-    handleUpdateAvatar
+    handleUpdateAvatar,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

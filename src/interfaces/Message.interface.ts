@@ -1,9 +1,6 @@
 export interface iMessage {
   id: number;
-  text: string;
+  message: string;
+  active: boolean;
   timestamp: string;
-  user: {
-    name: string;
-    avatar: string;
-  };
 }

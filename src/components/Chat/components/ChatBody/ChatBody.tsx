@@ -1,13 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import { Flex } from "@chakra-ui/react";
 import { useApp, useAuth } from "../../../../context";
-import mockChat from "../../../../mocks/my-chat.json";
+import userChats from "../../../../mocks/my-chat.json";
 import bgDefault from "../../../../assets/img/whatsApp.jpeg";
 import { Message } from "../../../Message";
 import { iMessage } from "../../../../interfaces/Message.interface";
 
 export const ChatBody: React.FC = () => {
-  const { user }: any = useAuth();
   const { contactSelected }: any = useApp();
   const bottomRef = useRef<null | HTMLDivElement>(null);
 
@@ -28,14 +27,13 @@ export const ChatBody: React.FC = () => {
       p="15px 25px"
     >
       {contactSelected &&
-        mockChat.messages.map(
-          ({ user: { name, avatar }, text, timestamp, id }: iMessage) => (
+        userChats.chats[0].chat.map(
+          ({ id, active, message, timestamp }: iMessage) => (
             <Message
               key={id}
-              user={{ name, avatar }}
-              message={text}
+              message={message}
               timestamp={timestamp}
-              active={name === user?.name}
+              active={active}
             />
           )
         )}

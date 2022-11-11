@@ -1,23 +1,23 @@
 import React from "react";
 import { Avatar, Flex, Text } from "@chakra-ui/react";
 import { Timestamp } from "../../helpers";
+import { useApp, useAuth } from "../../context";
 
 interface iMessage {
-  user: {
-    name: string;
-    avatar: string;
-  };
+  key: number;
   message: string;
   timestamp: string;
   active: boolean;
 }
 
 export const Message: React.FC<iMessage> = ({
-  user,
+  key,
   message,
   timestamp,
   active,
 }) => {
+  const { user }: any = useAuth();
+  const { contactSelected }: any = useApp();
   return (
     <Flex gap="30px" alignSelf={active ? "flex-end" : "flex-start"}>
       {active ? (
@@ -33,7 +33,7 @@ export const Message: React.FC<iMessage> = ({
             </Text>
           </Flex>
           <Flex direction="column">
-            <Avatar name={user.name} src={user.avatar} />
+            <Avatar name={user.name} src={user.photoURL} />
             <Text color="grey" fontSize="14px">
               {Timestamp(timestamp)}
             </Text>
@@ -42,7 +42,7 @@ export const Message: React.FC<iMessage> = ({
       ) : (
         <>
           <Flex direction="column">
-            <Avatar name={user.name} src={user.avatar} />
+            <Avatar name={contactSelected.name} src={contactSelected.photoURL} />
             <Text color="grey" fontSize="14px">
               {Timestamp(timestamp)}
             </Text>

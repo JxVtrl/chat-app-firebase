@@ -50,9 +50,9 @@ export const ContactsHeader: React.FC = () => {
             <MenuList>
               <MenuItem onClick={() => setMenuOpened(0)}>Perfil</MenuItem>
               <MenuItem onClick={handleTheme}>Trocar tema</MenuItem>
-              <MenuItem onClick={() => setMenuOpened(1)}>
+              {/* <MenuItem onClick={() => setMenuOpened(1)}>
                 Configurações
-              </MenuItem>
+              </MenuItem> */}
               <MenuItem onClick={() => signOut(auth)}>Sair</MenuItem>
             </MenuList>
           </Menu>

@@ -1,5 +1,5 @@
 export interface iUser {
-  id?: number
+  id?: number;
   name: string;
   uid: string;
   photoURL: string;

@@ -13,7 +13,7 @@ export const ContactsBody: React.FC = () => {
   };
 
   return (
-    <Flex overflowY="scroll" overflowX="hidden" p="0" direction="column">
+    <Flex overflowY="auto" overflowX="hidden" p="0" direction="column">
       {contacts?.map((item: any) => (
         <Flex direction="column" key={item.id}>
           <hr />
