@@ -42,7 +42,10 @@ export const Message: React.FC<iMessage> = ({
       ) : (
         <>
           <Flex direction="column">
-            <Avatar name={contactSelected.name} src={contactSelected.photoURL} />
+            <Avatar
+              name={contactSelected.name}
+              src={contactSelected.photoURL}
+            />
             <Text color="grey" fontSize="14px">
               {Timestamp(timestamp)}
             </Text>
