@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -12,17 +12,43 @@ import {
   FormControl,
   FormLabel,
   Input,
-  FormErrorMessage,
   Text,
+  Avatar,
 } from "@chakra-ui/react";
 import { useApp, useAuth } from "../../context";
 import { Field, Form, Formik } from "formik";
-import { PreviewAvatar } from "../PreviewAvatar";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../firebase";
 
 export const Profile: React.FC = () => {
+  const [photo, setPhoto] = useState<any>();
+  const [photoURL, setPhotoURL] = useState<string>("");
   const { menuOpened, setMenuOpened }: any = useApp();
-  const { user }: any = useAuth();
+  const { user, handleUpdateAvatar }: any = useAuth();
   const fileRef = useRef<any>(null);
+
+  useEffect(() => {
+    const getPhotoURL = () => {
+      const userRef = ref(storage, `users/${user?.uid}/avatar`);
+      const uploadPhoto = uploadBytesResumable(userRef, photo);
+
+      uploadPhoto.on(
+        (error: any) => {
+          console.log(error)
+        },
+        () => {
+          getDownloadURL(uploadPhoto.snapshot.ref).then((downloadURL) => {
+            setPhotoURL(downloadURL);
+            handleUpdateAvatar(downloadURL);
+          });
+        }
+      );
+    };
+
+    return () => {
+      getPhotoURL();
+    };
+  }, [photo]);
 
   return (
     <Modal
@@ -32,6 +58,8 @@ export const Profile: React.FC = () => {
     >
       <ModalOverlay />
       <ModalContent>
+        <ModalHeader>Perfil</ModalHeader>
+        <ModalCloseButton />
         <Formik
           initialValues={{
             name: user.name,
@@ -40,7 +68,6 @@ export const Profile: React.FC = () => {
             photo: user.photoURL,
           }}
           onSubmit={(values, actions) => {
-            console.log(values);
             setTimeout(() => {
               actions.setSubmitting(false);
               setMenuOpened(undefined);
@@ -49,16 +76,12 @@ export const Profile: React.FC = () => {
         >
           {({ values, setFieldValue, isSubmitting }) => (
             <>
-              <ModalHeader>Perfil</ModalHeader>
-              <ModalCloseButton />
               <ModalBody>
                 <Form>
                   <Flex direction="column" gap="20px">
                     <Field type="file" name="photo">
                       {({ field, form }: any) => (
-                        <FormControl
-                          isInvalid={form.errors.photo && form.touched.photo}
-                        >
+                        <FormControl>
                           <FormLabel>Foto</FormLabel>
                           <Flex
                             cursor="pointer"
@@ -68,7 +91,7 @@ export const Profile: React.FC = () => {
                             align="center"
                             onClick={() => fileRef?.current?.click()}
                           >
-                            {/* <PreviewAvatar file={values?.photo} /> */}
+                            <Avatar src={photoURL} name={user.name} />
                             <Text>Clique para alterar</Text>
                           </Flex>
                           <input
@@ -78,22 +101,17 @@ export const Profile: React.FC = () => {
                             type="file"
                             accept="image/*"
                             onChange={(e: any) => {
-                              console.log(e);
                               setFieldValue("file", e.target.files);
+                              setPhoto(e.target.files[0]);
                             }}
                           />
-                          <FormErrorMessage>
-                            {form.errors.photo}
-                          </FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
 
                     <Field name="name">
                       {({ field, form }: any) => (
-                        <FormControl
-                          isInvalid={form.errors.name && form.touched.name}
-                        >
+                        <FormControl>
                           <FormLabel>Nome</FormLabel>
                           <Input
                             {...field}
@@ -101,20 +119,13 @@ export const Profile: React.FC = () => {
                             placeholder="Insira seu nome"
                             defaultValue={values.name}
                           />
-                          <FormErrorMessage>
-                            {form.errors.name}
-                          </FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
 
                     <Field name="username">
                       {({ field, form }: any) => (
-                        <FormControl
-                          isInvalid={
-                            form.errors.username && form.touched.username
-                          }
-                        >
+                        <FormControl>
                           <FormLabel>Username</FormLabel>
                           <Input
                             {...field}
@@ -123,36 +134,12 @@ export const Profile: React.FC = () => {
                             defaultValue={values.username}
                             isDisabled
                           />
-                          <FormErrorMessage>
-                            {form.errors.username}
-                          </FormErrorMessage>
-                        </FormControl>
-                      )}
-                    </Field>
-
-                    <Field name="email">
-                      {({ field, form }: any) => (
-                        <FormControl
-                          isInvalid={form.errors.email && form.touched.email}
-                        >
-                          <FormLabel>E-mail</FormLabel>
-                          <Input
-                            {...field}
-                            type="email"
-                            placeholder="Insira seu email"
-                            defaultValue={values.email}
-                            isDisabled
-                          />
-                          <FormErrorMessage>
-                            {form.errors.email}
-                          </FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
                   </Flex>
                 </Form>
               </ModalBody>
-
               <ModalFooter>
                 <Button
                   mt={4}

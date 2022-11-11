@@ -100,6 +100,14 @@ export function AuthProvider({ children }: any) {
     });
   };
 
+  const handleUpdateAvatar = async (photoURL: string) => {
+    if (user) {
+      const userRef = doc(usersCollection, user.uid);
+      await setDoc(userRef, { photoURL }, { merge: true });
+      setUser({ ...user, photoURL });
+    }
+  };
+
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
       createUserObject(user);
@@ -110,6 +118,10 @@ export function AuthProvider({ children }: any) {
     };
   }, []);
 
+  useEffect(() => {
+    console.log(user)
+  },[user])
+
   const value = {
     user,
     setUser,
@@ -117,6 +129,8 @@ export function AuthProvider({ children }: any) {
     handleLogin,
     registerError,
     LoginError,
+    usersCollection,
+    handleUpdateAvatar
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
