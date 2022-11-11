@@ -47,13 +47,22 @@ export function Register() {
     return null;
   };
 
-  function validateUsername(value: string) {
-    let error;
+  async function validateUsername(value: string) {
+    let error = "";
     if (!value) {
-      error = "Usuário é obrigatório";
-    } else if (usernameAvailable(value)) {
-      error = "Usuário já existe";
+      error = "Nome de usuário é obrigatório";
+    } else if (value.length < 3) {
+      error = "Nome de usuário deve ter no mínimo 3 caracteres";
+    } else if (value.length > 20) {
+      error = "Nome de usuário deve ter no máximo 20 caracteres";
+    } else if (!/^[a-zA-Z0-9]+$/.test(value)) {
+      error = "Nome de usuário deve conter apenas letras e números";
     }
+
+    const result = await usernameAvailable(value);
+
+    if (!result) error = "Nome de usuário já existe";
+
     return error;
   }
 
@@ -124,12 +133,9 @@ export function Register() {
                           }
                         >
                           <FormLabel>Username</FormLabel>
-                          <FormHelperText mb="5px">
-                            O username não poderá ser alterado
-                          </FormHelperText>
                           <Input
                             {...field}
-                            type="name"
+                            type="text"
                             placeholder="Insira seu nome de usuário"
                           />
                           <FormErrorMessage>

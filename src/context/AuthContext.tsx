@@ -54,10 +54,13 @@ export function AuthProvider({ children }: any) {
         values.email,
         values.password
       );
-      if (userCredential.user.uid) {
+
+      const uid = userCredential.user.uid
+
+      if (uid) {
         // Criando um documento especifico no db p/ usuario criado
-        await setDoc(doc(usersCollection, userCredential.user.uid), {
-          uid: userCredential.user.uid,
+        await setDoc(doc(usersCollection, uid), {
+          uid: uid,
           name: values.name,
           username: values.username,
           email: values.email,
@@ -65,7 +68,7 @@ export function AuthProvider({ children }: any) {
         });
 
         // Criando um documento especifico de chat p/ usuario criado
-        await setDoc(doc(chatsCollection, userCredential.user.uid), {});
+        await setDoc(doc(chatsCollection, uid), {});
 
         // Redirecionando para home
         redirect();
@@ -84,9 +87,23 @@ export function AuthProvider({ children }: any) {
         values.email,
         values.password
       );
+      const uid = userCredential.user.uid;
 
-      // Redirecionando para home
-      if (userCredential.user.uid) redirect();
+      const querySnapshot = await getDocs(
+        query(usersCollection, where("uid", "==", uid))
+      )
+
+      const data = querySnapshot.docs[0].data()
+
+      setUser({
+        uid: data.uid,
+        name: data.name,
+        photoURL: data.photoURL,
+        username: data.username,
+        email: data.email,
+      })
+
+      redirect();
     } catch (error: any) {
       setLoginError(error);
     }
@@ -134,8 +151,6 @@ export function AuthProvider({ children }: any) {
     const querySnapshot = await getDocs(
       query(usersCollection, where("username", "==", username))
     );
-    console.log(querySnapshot.docs.length);
-
     return querySnapshot.empty;
   };
 
@@ -181,10 +196,6 @@ export function AuthProvider({ children }: any) {
       });
     });
   };
-
-  useEffect(() => {
-    if (user) console.log(user);
-  }, [user]);
 
   const value = {
     user,
