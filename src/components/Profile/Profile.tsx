@@ -21,10 +21,10 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebase";
 
 export const Profile: React.FC = () => {
-  const [photo, setPhoto] = useState<any>();
-  const [photoURL, setPhotoURL] = useState<string>("");
   const { menuOpened, setMenuOpened }: any = useApp();
   const { user, handleUpdateAvatar }: any = useAuth();
+  const [photo, setPhoto] = useState<any>();
+  const [photoURL, setPhotoURL] = useState<string>(user.photoURL);
   const fileRef = useRef<any>(null);
 
   useEffect(() => {
@@ -38,6 +38,7 @@ export const Profile: React.FC = () => {
         },
         () => {
           getDownloadURL(uploadPhoto.snapshot.ref).then((downloadURL) => {
+            console.log(downloadURL)
             setPhotoURL(downloadURL);
             handleUpdateAvatar(downloadURL);
           });
@@ -91,11 +92,10 @@ export const Profile: React.FC = () => {
                             align="center"
                             onClick={() => fileRef?.current?.click()}
                           >
-                            <Avatar src={photoURL} name={user.name} />
-                            <Text>Clique para alterar</Text>
+                            <Avatar src={photoURL} name={values.name} />
+                            <Text>Alterar avatar</Text>
                           </Flex>
                           <input
-                            {...field}
                             ref={fileRef}
                             hidden
                             type="file"
@@ -117,7 +117,7 @@ export const Profile: React.FC = () => {
                             {...field}
                             type="text"
                             placeholder="Insira seu nome"
-                            defaultValue={values.name}
+                            value={values.name}
                           />
                         </FormControl>
                       )}
@@ -131,7 +131,7 @@ export const Profile: React.FC = () => {
                             {...field}
                             type="text"
                             placeholder="Insira seu username"
-                            defaultValue={values.username}
+                            value={values.username}
                             isDisabled
                           />
                         </FormControl>

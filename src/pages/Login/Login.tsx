@@ -60,7 +60,7 @@ export function Login() {
     <Flex h="100vh" w="100vw" overflow="hidden" justify="center" align="center">
       <Modal isOpen={true} onClose={() => null}>
         <ModalOverlay />
-        <ModalContent placeSelf="center">
+        <ModalContent placeSelf="center" mx='15px'>
           <ModalHeader textAlign="center">
             <Text fontSize="2xl" fontWeight="bold">
               Jx's Chat
