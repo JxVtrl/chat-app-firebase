@@ -27,7 +27,7 @@ export const ChatBody: React.FC = () => {
       p="15px 25px"
     >
       {contactSelected &&
-        userChats.chats[0].chat.map(
+        userChats?.chats[contactSelected.id]?.chat?.map(
           ({ id, active, message, timestamp }: iMessage) => (
             <Message
               key={id}

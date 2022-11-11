@@ -52,6 +52,10 @@ export function AppProvider({ children }: any) {
     getFakeUsers();
   }, []);
 
+  useEffect(() => { console.log(contacts)}, [contacts])
+  useEffect(()=>{ console.log(contactSelected)},[contactSelected])
+  
+
   const value = {
     contactSelected,
     setContactSelected,

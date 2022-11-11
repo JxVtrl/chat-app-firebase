@@ -4,14 +4,12 @@ import { Timestamp } from "../../helpers";
 import { useApp, useAuth } from "../../context";
 
 interface iMessage {
-  key: number;
   message: string;
   timestamp: string;
   active: boolean;
 }
 
 export const Message: React.FC<iMessage> = ({
-  key,
   message,
   timestamp,
   active,
@@ -19,7 +17,7 @@ export const Message: React.FC<iMessage> = ({
   const { user }: any = useAuth();
   const { contactSelected }: any = useApp();
   return (
-    <Flex gap="30px" alignSelf={active ? "flex-end" : "flex-start"}>
+    <Flex gap="30px" alignSelf={active ? "flex-end" : "flex-start"} >
       {active ? (
         <>
           <Flex
