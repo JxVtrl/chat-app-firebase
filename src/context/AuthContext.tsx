@@ -13,7 +13,15 @@ import {
 } from "firebase/auth";
 import { iUser } from "../interfaces";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { collection, doc, setDoc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  setDoc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 
 interface AuthError {
   code: string;
@@ -103,6 +111,14 @@ export function AuthProvider({ children }: any) {
     }
   };
 
+  const findUser = async (username: string) => {
+    const querySnapshot = await getDocs(
+      query(usersCollection, where("username", "==", username))
+    );
+    const data = querySnapshot.docs[0].data();
+    return data;
+  };
+
   const handleUpdateAvatar = async (photoURL: string) => {
     if (user) {
       // Criando a referencia para o arquivo
@@ -114,8 +130,28 @@ export function AuthProvider({ children }: any) {
     }
   };
 
+  const usernameAvailable = async (username: string) => {
+    const querySnapshot = await getDocs(
+      query(usersCollection, where("username", "==", username))
+    );
+    console.log(querySnapshot.docs.length);
+
+    return querySnapshot.empty;
+  };
+
+  const handleUsername = async (username: string) => {
+    if (user) {
+      // Criando a referencia para o arquivo
+      const userRef = doc(usersCollection, user.uid);
+      // Atualizando o documento do usuario com o novo username
+      await setDoc(userRef, { username }, { merge: true });
+      // Atualizando o estado do usuario com o novo username
+      setUser({ ...user, username });
+    }
+  };
+
   useEffect(() => {
-    // Verificando se o usuario esta logado
+    // Verificando o estado do usuario
     const unsub = onAuthStateChanged(auth, (user) => {
       createUserObject(user);
     });
@@ -125,6 +161,7 @@ export function AuthProvider({ children }: any) {
     };
   }, []);
 
+  // Criando URL da foto do usuario
   const getPhotoURL = async (photo: any) => {
     // Criando referencia para o arquivo
     const avatarRef = ref(
@@ -161,6 +198,8 @@ export function AuthProvider({ children }: any) {
     photo,
     setPhoto,
     getPhotoURL,
+    findUser,
+    usernameAvailable,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

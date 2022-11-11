@@ -32,7 +32,7 @@ import {
 import errorCodes from "../../data/error-codes.json";
 
 export function Register() {
-  const { handleRegister, registerError }: any = useAuth();
+  const { handleRegister, registerError, usernameAvailable }: any = useAuth();
 
   const navigate = useNavigate();
 
@@ -46,6 +46,16 @@ export function Register() {
     }
     return null;
   };
+
+  function validateUsername(value: string) {
+    let error;
+    if (!value) {
+      error = "Usuário é obrigatório";
+    } else if (usernameAvailable(value)) {
+      error = "Usuário já existe";
+    }
+    return error;
+  }
 
   return (
     <Flex h="100vh" w="100vw" overflow="hidden" justify="center" align="center">
@@ -106,7 +116,7 @@ export function Register() {
                       )}
                     </Field>
 
-                    <Field name="username">
+                    <Field name="username" validate={validateUsername}>
                       {({ field, form }: any) => (
                         <FormControl
                           isInvalid={

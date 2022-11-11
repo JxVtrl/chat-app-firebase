@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Flex } from "@chakra-ui/react";
 import { Main } from "../../sections";
-import { Profile, Config } from "../../components";
+import { Profile, Config, Search } from "../../components";
 
 export function Home() {
   return (
@@ -16,6 +16,7 @@ export function Home() {
       <Main />
       <Profile />
       <Config />
+      <Search />
     </Flex>
   );
 }

@@ -42,7 +42,11 @@ export const ContactsHeader: React.FC = () => {
           onClick={() => setMenuOpened(0)}
         />
         <Flex color="#474747" gap="35px" align="center">
-          <EditIcon cursor="pointer" w="20px" />
+          <EditIcon
+            cursor="pointer"
+            w="20px"
+            onClick={() => setMenuOpened(2)}
+          />
           <Menu>
             <MenuButton w="20px">
               <i className="fa-solid fa-ellipsis-vertical" />
