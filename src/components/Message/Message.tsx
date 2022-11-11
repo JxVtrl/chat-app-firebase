@@ -9,15 +9,11 @@ interface iMessage {
   active: boolean;
 }
 
-export const Message: React.FC<iMessage> = ({
-  message,
-  timestamp,
-  active,
-}) => {
+export const Message: React.FC<iMessage> = ({ message, timestamp, active }) => {
   const { user }: any = useAuth();
   const { contactSelected }: any = useApp();
   return (
-    <Flex gap="30px" alignSelf={active ? "flex-end" : "flex-start"} >
+    <Flex gap="30px" alignSelf={active ? "flex-end" : "flex-start"}>
       {active ? (
         <>
           <Flex

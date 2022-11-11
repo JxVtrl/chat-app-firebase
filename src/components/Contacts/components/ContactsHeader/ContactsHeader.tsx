@@ -17,7 +17,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../../../firebase";
 
 export const ContactsHeader: React.FC = () => {
-  const { setMenuOpened }: any = useApp();
+  const { setMenuOpened, setFilterContact, filterContact }: any = useApp();
   const { user }: any = useAuth();
 
   const handleTheme = () => {};
@@ -71,6 +71,8 @@ export const ContactsHeader: React.FC = () => {
               fontSize: "14px",
             }}
             placeholder="Pesquisar contato"
+            onChange={(e) => setFilterContact(e.target.value)}
+            value={filterContact}
           />
         </InputGroup>
       </Flex>

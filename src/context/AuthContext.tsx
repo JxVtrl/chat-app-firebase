@@ -85,19 +85,21 @@ export function AuthProvider({ children }: any) {
   };
 
   const createUserObject = (user: any) => {
-    const userRef = doc(usersCollection, user.uid);
-    getDoc(userRef).then((doc) => {
-      if (doc.exists()) {
-        const userData = doc.data();
-        setUser({
-          uid: user.uid,
-          name: userData.name,
-          username: userData.username,
-          email: userData.email,
-          photoURL: userData.photoURL,
-        });
-      }
-    });
+    if (user) {
+      const userRef = doc(usersCollection, user.uid);
+      getDoc(userRef).then((doc) => {
+        if (doc.exists()) {
+          const userData = doc.data();
+          setUser({
+            uid: user.uid,
+            name: userData.name,
+            username: userData.username,
+            email: userData.email,
+            photoURL: userData.photoURL,
+          });
+        }
+      });
+    }
   };
 
   const handleUpdateAvatar = async (photoURL: string) => {
@@ -117,10 +119,6 @@ export function AuthProvider({ children }: any) {
       unsub();
     };
   }, []);
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   const value = {
     user,

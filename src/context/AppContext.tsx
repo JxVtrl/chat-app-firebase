@@ -15,6 +15,9 @@ export function AppProvider({ children }: any) {
   const [contactSelected, setContactSelected] = useState<iUser | undefined>(
     undefined
   );
+  const [filterContact, setFilterContact] = useState<string | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     const getFakeUsers = async () => {
@@ -52,9 +55,8 @@ export function AppProvider({ children }: any) {
     getFakeUsers();
   }, []);
 
-  useEffect(() => { console.log(contacts)}, [contacts])
-  useEffect(()=>{ console.log(contactSelected)},[contactSelected])
-  
+  // useEffect(() => { console.log(contacts)}, [contacts])
+  // useEffect(()=>{ console.log(contactSelected)},[contactSelected])
 
   const value = {
     contactSelected,
@@ -63,6 +65,8 @@ export function AppProvider({ children }: any) {
     setContacts,
     setMenuOpened,
     menuOpened,
+    setFilterContact,
+    filterContact,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

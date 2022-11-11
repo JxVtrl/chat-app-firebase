@@ -24,7 +24,7 @@ import { useApp, useAuth } from "../../context";
 import errorCodes from "../../data/error-codes.json";
 
 export function Login() {
-  const { handleLogin, LoginError }: any = useAuth();
+  const { handleLogin, LoginError, user }: any = useAuth();
   const navigate = useNavigate();
 
   function validateEmail(value: string) {
