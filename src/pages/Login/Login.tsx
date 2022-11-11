@@ -13,13 +13,18 @@ import {
   FormLabel,
   Input,
   FormErrorMessage,
+  Alert,
+  AlertTitle,
+  AlertDescription,
+  AlertIcon,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { useApp, useAuth } from "../../context";
+import errorCodes from "../../data/error-codes.json";
 
 export function Login() {
-  const { handleLogin }: any = useAuth();
+  const { handleLogin, LoginError }: any = useAuth();
   const navigate = useNavigate();
 
   function validateEmail(value: string) {
@@ -39,6 +44,18 @@ export function Login() {
     }
     return error;
   }
+
+  const findErrorIndex = (item: any) => {
+    for (let i = 0; i < errorCodes.error.length; i++) {
+      if (errorCodes.error[i].code === item.code) {
+        if (errorCodes.error[i].message !== "")
+          return errorCodes.error[i].message;
+        else return item.code;
+      }
+    }
+    return item.code;
+  };
+
   return (
     <Flex h="100vh" w="100vw" overflow="hidden" justify="center" align="center">
       <Modal isOpen={true} onClose={() => null}>
@@ -54,12 +71,19 @@ export function Login() {
           </ModalHeader>
 
           <ModalBody>
+            {LoginError && (
+              <Alert status="error" my="10px">
+                <AlertIcon />
+                <AlertTitle>Erro!</AlertTitle>
+                <AlertDescription>
+                  {findErrorIndex(LoginError)}
+                </AlertDescription>
+              </Alert>
+            )}
             <Formik
               initialValues={{ email: "", password: "" }}
               onSubmit={(values, actions) => {
-                console.log(values);
                 setTimeout(() => {
-                  // alert(JSON.stringify(values, null, 2));
                   handleLogin(values, () => navigate("/"));
                   actions.setSubmitting(false);
                 }, 1000);

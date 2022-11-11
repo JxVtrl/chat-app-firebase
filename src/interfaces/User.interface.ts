@@ -1,10 +1,7 @@
 export interface iUser {
-  email: string;
-  id: number;
   name: string;
-  phone: string;
+  uid: string;
+  photoURL: string;
   username: string;
-  website: string;
-  photos: string;
+  email: string;
 }
-[];

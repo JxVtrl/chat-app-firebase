@@ -1,0 +1,1 @@
+export { PreviewAvatar } from './PreviewAvatar'

@@ -12,6 +12,6 @@ export const Private: FC<Props> = ({ children }) => {
   if (!user?.uid) {
     return <Navigate to={"/login"} replace />;
   }
-  
+
   return children;
 };

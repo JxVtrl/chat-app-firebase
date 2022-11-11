@@ -4,6 +4,11 @@
       "id": 0,
       "code": "auth/email-already-in-use",
       "message": "E-mail já em uso"
+    },
+    {
+      "id": 1,
+      "code": "auth/wrong-password",
+      "message": "Senha incorreta"
     }
   ]
 }

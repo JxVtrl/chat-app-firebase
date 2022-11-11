@@ -19,6 +19,7 @@ import {
   AlertTitle,
   AlertDescription,
   AlertIcon,
+  FormHelperText,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import { useAuth } from "../../context";
@@ -45,6 +46,7 @@ export function Register() {
     }
     return null;
   };
+
   return (
     <Flex h="100vh" w="100vw" overflow="hidden" justify="center" align="center">
       <Modal isOpen={true} onClose={() => null}>
@@ -69,7 +71,13 @@ export function Register() {
               </Alert>
             )}
             <Formik
-              initialValues={{ name: "", email: "", password: "", confirm: "" }}
+              initialValues={{
+                name: "",
+                email: "",
+                password: "",
+                confirm: "",
+                username: "",
+              }}
               onSubmit={(values, actions) => {
                 setTimeout(() => {
                   handleRegister(values, () => navigate("/"));
@@ -93,6 +101,29 @@ export function Register() {
                           />
                           <FormErrorMessage>
                             {form.errors.name}
+                          </FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
+
+                    <Field name="username">
+                      {({ field, form }: any) => (
+                        <FormControl
+                          isInvalid={
+                            form.errors.username && form.touched.username
+                          }
+                        >
+                          <FormLabel>Username</FormLabel>
+                          <FormHelperText mb="5px">
+                            O username não poderá ser alterado
+                          </FormHelperText>
+                          <Input
+                            {...field}
+                            type="name"
+                            placeholder="Insira seu nome de usuário"
+                          />
+                          <FormErrorMessage>
+                            {form.errors.username}
                           </FormErrorMessage>
                         </FormControl>
                       )}
@@ -177,7 +208,8 @@ export function Register() {
                       disabled={
                         props.values.email === "" ||
                         props.values.password === "" ||
-                        props.values.name === ""
+                        props.values.name === "" ||
+                        props.values.username === ""
                       }
                     >
                       Fazer Registro
