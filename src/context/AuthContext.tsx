@@ -12,8 +12,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { iUser } from "../interfaces";
-import { UserInfo } from "firebase/auth";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { collection, doc, setDoc, getDoc } from "firebase/firestore";
 
 interface AuthError {
@@ -25,6 +24,8 @@ const AuthContext = createContext({});
 
 export function AuthProvider({ children }: any) {
   const [user, setUser] = useState<iUser | null>(null);
+  const [photo, setPhoto] = useState<any>();
+
   const [registerError, setRegisterError] = useState<AuthError | undefined>(
     undefined
   );
@@ -32,7 +33,7 @@ export function AuthProvider({ children }: any) {
     undefined
   );
 
-  // Criando a referencia para a coleção desejada
+  // Criando a referencia para as coleções do firestore
   const usersCollection = collection(db, "users");
   const chatsCollection = collection(db, "chats");
 
@@ -62,30 +63,30 @@ export function AuthProvider({ children }: any) {
         redirect();
       }
     } catch (error: any) {
-      console.log(error);
       setRegisterError(error);
     }
   };
 
   const handleLogin = async (values: any, redirect: any) => {
+    setLoginError(undefined);
     try {
+      // fazendo login com as credenciais do usuario
       const userCredential = await signInWithEmailAndPassword(
         auth,
         values.email,
         values.password
       );
 
-      if (userCredential.user.uid) {
-        redirect();
-      }
+      // Redirecionando para home
+      if (userCredential.user.uid) redirect();
     } catch (error: any) {
-      console.log(error);
       setLoginError(error);
     }
   };
 
   const createUserObject = (user: any) => {
     if (user) {
+      // Criando um objeto com as informações do usuario
       const userRef = doc(usersCollection, user.uid);
       getDoc(userRef).then((doc) => {
         if (doc.exists()) {
@@ -104,13 +105,17 @@ export function AuthProvider({ children }: any) {
 
   const handleUpdateAvatar = async (photoURL: string) => {
     if (user) {
+      // Criando a referencia para o arquivo
       const userRef = doc(usersCollection, user.uid);
+      // Atualizando o documento do usuario com a nova foto
       await setDoc(userRef, { photoURL }, { merge: true });
+      // Atualizando o estado do usuario com a nova foto
       setUser({ ...user, photoURL });
     }
   };
 
   useEffect(() => {
+    // Verificando se o usuario esta logado
     const unsub = onAuthStateChanged(auth, (user) => {
       createUserObject(user);
     });
@@ -119,6 +124,30 @@ export function AuthProvider({ children }: any) {
       unsub();
     };
   }, []);
+
+  const getPhotoURL = async (photo: any) => {
+    // Criando referencia para o arquivo
+    const avatarRef = ref(
+      storage,
+      `avatars/${user?.uid}.${photo?.type.split("/")[1]}`
+    );
+
+    // Pegando o metadata da imagem
+    const metadata = {
+      contentType: photo?.type,
+    };
+
+    // Fazendo upload da imagem
+    await uploadBytes(avatarRef, photo, metadata).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url) => {
+        handleUpdateAvatar(url);
+      });
+    });
+  };
+
+  useEffect(() => {
+    if (user) console.log(user);
+  }, [user]);
 
   const value = {
     user,
@@ -129,6 +158,9 @@ export function AuthProvider({ children }: any) {
     LoginError,
     usersCollection,
     handleUpdateAvatar,
+    photo,
+    setPhoto,
+    getPhotoURL,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

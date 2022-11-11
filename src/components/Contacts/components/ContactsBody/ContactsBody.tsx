@@ -36,8 +36,9 @@ export const ContactsBody: React.FC = () => {
                 cursor="pointer"
                 px="24px"
                 overflow="hidden"
+                transition="all 0.4s ease"
               >
-                <Avatar name={contact.name} src={contact.photos} mr="15px" />
+                <Avatar name={contact.name} src={contact.photoURL} mr="15px" />
                 <Flex w="100%" direction="column" justify="center">
                   <Text>{contact.name}</Text>
                   {/* <Text 

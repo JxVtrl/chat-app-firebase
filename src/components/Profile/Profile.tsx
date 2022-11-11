@@ -17,33 +17,11 @@ import {
 } from "@chakra-ui/react";
 import { useApp, useAuth } from "../../context";
 import { Field, Form, Formik } from "formik";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { storage } from "../../firebase";
 
 export const Profile: React.FC = () => {
   const { menuOpened, setMenuOpened }: any = useApp();
-  const { user, handleUpdateAvatar }: any = useAuth();
-  const [photo, setPhoto] = useState<any>();
-  const [photoURL, setPhotoURL] = useState<string>(user.photoURL);
+  const { user, getPhotoURL }: any = useAuth();
   const fileRef = useRef<any>(null);
-
-  useEffect(() => {
-    const getPhotoURL = () => {
-      const userRef = ref(storage, `users/${user?.uid}/avatar`);
-      const uploadPhoto = uploadBytesResumable(userRef, photo);
-
-      uploadPhoto.then(async (snapshot) => {
-        await getDownloadURL(snapshot.ref).then((url) => {
-          setPhotoURL(url);
-          handleUpdateAvatar(url);
-        });
-      });
-    };
-
-    return () => {
-      getPhotoURL();
-    };
-  }, [photo]);
 
   return (
     <Modal
@@ -86,7 +64,7 @@ export const Profile: React.FC = () => {
                             align="center"
                             onClick={() => fileRef?.current?.click()}
                           >
-                            <Avatar src={photoURL} name={values.name} />
+                            <Avatar src={user.photoURL} name={values.name} />
                             <Text>Alterar avatar</Text>
                           </Flex>
                           <input
@@ -96,7 +74,7 @@ export const Profile: React.FC = () => {
                             accept="image/*"
                             onChange={(e: any) => {
                               setFieldValue("file", e.target.files);
-                              setPhoto(e.target.files[0]);
+                              getPhotoURL(e.target.files[0]);
                             }}
                           />
                         </FormControl>
