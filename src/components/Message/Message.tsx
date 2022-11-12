@@ -2,12 +2,7 @@ import React from "react";
 import { Avatar, Flex, Text } from "@chakra-ui/react";
 import { Timestamp } from "../../helpers";
 import { useApp, useAuth } from "../../context";
-
-interface iMessage {
-  message: string;
-  timestamp: string;
-  active: boolean;
-}
+import { iMessage } from '../../interfaces'
 
 export const Message: React.FC<iMessage> = ({ message, timestamp, active }) => {
   const { user }: any = useAuth();

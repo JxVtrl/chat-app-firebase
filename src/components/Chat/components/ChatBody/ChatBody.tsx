@@ -4,7 +4,7 @@ import { useApp, useAuth } from "../../../../context";
 import userChats from "../../../../mocks/my-chat.json";
 import bgDefault from "../../../../assets/img/whatsApp.jpeg";
 import { Message } from "../../../Message";
-import { iMessage } from "../../../../interfaces/Message.interface";
+import { iMessage } from "../../../../interfaces";
 
 export const ChatBody: React.FC = () => {
   const { contactSelected }: any = useApp();

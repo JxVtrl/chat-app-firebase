@@ -1,5 +1,5 @@
 export interface iMessage {
-  id: number;
+  id?: number;
   message: string;
   active: boolean;
   timestamp: string;
