@@ -14,11 +14,12 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useApp, useAuth } from "../../context";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 export const Search: React.FC = () => {
   const [search, setSearch] = useState<string>("");
   const { menuOpened, setMenuOpened }: any = useApp();
-  const { allUsers, findUser, userFound }: any = useAuth();
+  const { allUsers, findUser, userFound, addChats }: any = useAuth();
 
   useEffect(() => {
     const resetSearch = () => [setSearch("")];
@@ -27,6 +28,13 @@ export const Search: React.FC = () => {
       resetSearch();
     };
   }, []);
+
+  const handleSelectSearch = () => {
+    if (userFound?.username) addChats(search);
+    // fechar modal de pesquisa
+    // adicionar novo chat na coleção de chats do usuário
+    // abrir o chat com o usuário selecionado
+  };
 
   return (
     <Modal
@@ -49,11 +57,27 @@ export const Search: React.FC = () => {
             }}
           />
           {userFound && (
-            <Flex w="100%" mt="15px" align="center" gap="15px">
-              <Avatar src={userFound.photoURL} name={userFound.name} />
-              <Text fontSize="18px" fontWeight="600">
-                {userFound.username}
-              </Text>
+            <Flex
+              w="100%"
+              mt="15px"
+              px="20px"
+              justifyContent="space-between"
+              align="center"
+              onClick={handleSelectSearch}
+              cursor="pointer"
+            >
+              <Flex align="center" gap="15px">
+                <Avatar src={userFound.photoURL} name={userFound.name} />
+                <Text fontSize="18px" fontWeight="600">
+                  {userFound.username}
+                </Text>
+              </Flex>
+              <Button
+                transition="all 0.3s ease-in-out"
+                _hover={{ transform: "scale(1.04)", colorScheme: "blue" }}
+              >
+                <ArrowForwardIcon boxSize={5} />
+              </Button>
             </Flex>
           )}
         </ModalBody>

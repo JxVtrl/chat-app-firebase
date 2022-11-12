@@ -113,14 +113,14 @@ export const Profile: React.FC = () => {
                 </Form>
               </ModalBody>
               <ModalFooter>
-                <Button
+                {/* <Button
                   mt={4}
                   colorScheme="teal"
                   isLoading={isSubmitting}
                   type="submit"
                 >
                   Salvar
-                </Button>
+                </Button> */}
               </ModalFooter>
             </>
           )}

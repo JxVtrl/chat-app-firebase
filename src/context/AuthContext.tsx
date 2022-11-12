@@ -23,12 +23,13 @@ import {
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
-import { iUser, AuthError } from "../interfaces";
+import { iUser, AuthError, iChat } from "../interfaces";
 
 const AuthContext = createContext({});
 
 export function AuthProvider({ children }: any) {
   const [user, setUser] = useState<iUser | null>(null);
+  const [chats, setChats] = useState<iChat | null>(null);
   const [photo, setPhoto] = useState<any>();
   const [userFound, setUserFound] = useState<iUser | null>(null);
 
@@ -67,7 +68,9 @@ export function AuthProvider({ children }: any) {
         });
 
         // Criando um documento especifico de chat p/ usuario criado
-        await setDoc(doc(chatsCollection, uid), {});
+        await setDoc(doc(chatsCollection, uid), {
+          chats: [],
+        });
 
         // Redirecionando para home
         redirect();
@@ -128,20 +131,26 @@ export function AuthProvider({ children }: any) {
     }
   };
 
+  // Criando o Objeto de chat do usuário
+  const createChatObject = () => {};
+
   // Procurando um usuario pelo username
   const findUser = async (username: string) => {
     const querySnapshot = await getDocs(
       query(usersCollection, where("username", "==", username))
     );
-    const data = querySnapshot.docs[0].data();
 
-    setUserFound({
-      uid: data.uid,
-      email: data.email,
-      name: data.name,
-      username: data.username,
-      photoURL: data.photoURL,
-    });
+    if (querySnapshot?.docs[0]?.exists()) {
+      const data = querySnapshot.docs[0].data();
+
+      setUserFound({
+        uid: data.uid,
+        email: data.email,
+        name: data.name,
+        username: data.username,
+        photoURL: data.photoURL,
+      });
+    }
   };
 
   // Atualizando a foto do usuario
@@ -162,6 +171,57 @@ export function AuthProvider({ children }: any) {
       query(usersCollection, where("username", "==", username))
     );
     return querySnapshot.empty;
+  };
+
+  const addChats = async (username: string) => {
+    let chats = [] as any;
+
+    // get chats from user
+    await getDoc(doc(chatsCollection, user?.uid))
+      .then((doc) => {
+        if (doc.exists()) {
+          console.log(doc.data());
+          chats = doc.data().chats;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // Se não exister nenhum chat com este uid registrado
+    console.log(chats);
+
+    // Verificar se já existe chat com o usuario pesquisado
+    for (let i = 0; i < chats.length; i++) {
+      if (chats[i].uid == userFound?.uid) {
+        return;
+      }
+    }
+
+    if (chats.length > 0) {
+      await setDoc(doc(chatsCollection, user?.uid), {
+        chats: [
+          ...chats,
+          {
+            id: chats.length,
+            uid: userFound?.uid,
+            chat: [],
+          },
+        ],
+      });
+    } else {
+      await setDoc(doc(chatsCollection, user?.uid), {
+        chats: [
+          {
+            id: chats.length,
+            uid: userFound?.uid,
+            chat: [],
+          },
+        ],
+      });
+    }
+
+    // add doc to chats colletion in user.uid document
   };
 
   // Alterar o nome do usuario
@@ -224,6 +284,7 @@ export function AuthProvider({ children }: any) {
     usernameAvailable,
     findUser,
     userFound,
+    addChats,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
