@@ -33,6 +33,7 @@ const AuthContext = createContext({});
 export function AuthProvider({ children }: any) {
   const [user, setUser] = useState<iUser | null>(null);
   const [photo, setPhoto] = useState<any>();
+  const [userFound, setUserFound] = useState<iUser | null>(null);
 
   const [registerError, setRegisterError] = useState<AuthError | undefined>(
     undefined
@@ -45,6 +46,7 @@ export function AuthProvider({ children }: any) {
   const usersCollection = collection(db, "users");
   const chatsCollection = collection(db, "chats");
 
+  // Função para registrar um novo usuário
   const handleRegister = async (values: any, redirect: any) => {
     setRegisterError(undefined);
     try {
@@ -55,7 +57,7 @@ export function AuthProvider({ children }: any) {
         values.password
       );
 
-      const uid = userCredential.user.uid
+      const uid = userCredential.user.uid;
 
       if (uid) {
         // Criando um documento especifico no db p/ usuario criado
@@ -78,6 +80,7 @@ export function AuthProvider({ children }: any) {
     }
   };
 
+  // Função para fazer login
   const handleLogin = async (values: any, redirect: any) => {
     setLoginError(undefined);
     try {
@@ -91,9 +94,9 @@ export function AuthProvider({ children }: any) {
 
       const querySnapshot = await getDocs(
         query(usersCollection, where("uid", "==", uid))
-      )
+      );
 
-      const data = querySnapshot.docs[0].data()
+      const data = querySnapshot.docs[0].data();
 
       setUser({
         uid: data.uid,
@@ -101,7 +104,7 @@ export function AuthProvider({ children }: any) {
         photoURL: data.photoURL,
         username: data.username,
         email: data.email,
-      })
+      });
 
       redirect();
     } catch (error: any) {
@@ -109,9 +112,10 @@ export function AuthProvider({ children }: any) {
     }
   };
 
+
+  // Criando o state User com as informações do usuario
   const createUserObject = (user: any) => {
     if (user) {
-      // Criando um objeto com as informações do usuario
       const userRef = doc(usersCollection, user.uid);
       getDoc(userRef).then((doc) => {
         if (doc.exists()) {
@@ -128,14 +132,23 @@ export function AuthProvider({ children }: any) {
     }
   };
 
+  // Procurando um usuario pelo username
   const findUser = async (username: string) => {
     const querySnapshot = await getDocs(
       query(usersCollection, where("username", "==", username))
     );
     const data = querySnapshot.docs[0].data();
-    return data;
+
+    setUserFound({
+      uid: data.uid,
+      email: data.email,
+      name: data.name,
+      username: data.username,
+      photoURL: data.photoURL,
+    });
   };
 
+  // Atualizando a foto do usuario
   const handleUpdateAvatar = async (photoURL: string) => {
     if (user) {
       // Criando a referencia para o arquivo
@@ -147,6 +160,7 @@ export function AuthProvider({ children }: any) {
     }
   };
 
+  // Verificar se há disponibilidade de um username
   const usernameAvailable = async (username: string) => {
     const querySnapshot = await getDocs(
       query(usersCollection, where("username", "==", username))
@@ -154,6 +168,7 @@ export function AuthProvider({ children }: any) {
     return querySnapshot.empty;
   };
 
+  // Alterar o nome do usuario
   const handleUsername = async (username: string) => {
     if (user) {
       // Criando a referencia para o arquivo
@@ -165,10 +180,13 @@ export function AuthProvider({ children }: any) {
     }
   };
 
+  // Verificando o estado do usuario
   useEffect(() => {
-    // Verificando o estado do usuario
     const unsub = onAuthStateChanged(auth, (user) => {
-      createUserObject(user);
+      if (user?.uid)
+        createUserObject(user);
+      else 
+        setUser(null);
     });
 
     return () => {
@@ -209,8 +227,9 @@ export function AuthProvider({ children }: any) {
     photo,
     setPhoto,
     getPhotoURL,
-    findUser,
     usernameAvailable,
+    findUser,
+    userFound,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
