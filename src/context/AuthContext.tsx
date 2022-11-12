@@ -106,6 +106,8 @@ export function AuthProvider({ children }: any) {
         email: data.email,
       });
 
+      getChats()
+
       redirect();
     } catch (error: any) {
       setLoginError(error);
@@ -132,57 +134,33 @@ export function AuthProvider({ children }: any) {
   };
 
   // Criando o Objeto de chat do usuário
-  const createChatObject = () => {};
-
-  // Procurando um usuario pelo username
-  const findUser = async (username: string) => {
-    const querySnapshot = await getDocs(
-      query(usersCollection, where("username", "==", username))
-    );
-
-    if (querySnapshot?.docs[0]?.exists()) {
-      const data = querySnapshot.docs[0].data();
-
-      setUserFound({
-        uid: data.uid,
-        email: data.email,
-        name: data.name,
-        username: data.username,
-        photoURL: data.photoURL,
-      });
-    }
-  };
-
-  // Atualizando a foto do usuario
-  const handleUpdateAvatar = async (photoURL: string) => {
+  const createChatObject = () => { };
+  
+  // Pegando todos os chats do user logado
+  const getChats = async () => {
     if (user) {
-      // Criando a referencia para o arquivo
-      const userRef = doc(usersCollection, user.uid);
-      // Atualizando o documento do usuario com a nova foto
-      await setDoc(userRef, { photoURL }, { merge: true });
-      // Atualizando o estado do usuario com a nova foto
-      setUser({ ...user, photoURL });
+      // Criando referencia para o arquivo
+      const chatRef = doc(chatsCollection, user.uid)
+      await getDoc(chatRef).then(doc => {
+        if (doc.exists()) {
+          console.log(doc.data())
+          const chat = doc.data().chats
+          console.log(chat)
+          setChats(chat)
+        }
+      })
+      .catch(err => console.log(err))
     }
-  };
+  }
 
-  // Verificar se há disponibilidade de um username
-  const usernameAvailable = async (username: string) => {
-    const querySnapshot = await getDocs(
-      query(usersCollection, where("username", "==", username))
-    );
-    return querySnapshot.empty;
-  };
-
+  // Adicionando um novo chat para o usuário
   const addChats = async (username: string) => {
     let chats = [] as any;
 
     // get chats from user
     await getDoc(doc(chatsCollection, user?.uid))
       .then((doc) => {
-        if (doc.exists()) {
-          console.log(doc.data());
-          chats = doc.data().chats;
-        }
+        if (doc.exists()) chats = doc.data().chats;
       })
       .catch((err) => {
         console.log(err);
@@ -205,6 +183,8 @@ export function AuthProvider({ children }: any) {
           {
             id: chats.length,
             uid: userFound?.uid,
+            name: userFound?.name,
+            username: userFound?.username,
             chat: [],
           },
         ],
@@ -215,11 +195,15 @@ export function AuthProvider({ children }: any) {
           {
             id: chats.length,
             uid: userFound?.uid,
+            name: userFound?.name,
+            username: userFound?.username,
             chat: [],
           },
         ],
       });
     }
+
+    getChats()
 
     // add doc to chats colletion in user.uid document
   };
@@ -236,17 +220,44 @@ export function AuthProvider({ children }: any) {
     }
   };
 
-  // Verificando o estado do usuario
-  useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (user) => {
-      if (user?.uid) createUserObject(user);
-      else setUser(null);
-    });
+  // Procurando um usuario pelo username
+  const findUser = async (username: string) => {
+    const querySnapshot = await getDocs(
+      query(usersCollection, where("username", "==", username))
+    );
 
-    return () => {
-      unsub();
-    };
-  }, []);
+    if (querySnapshot?.docs[0]?.exists()) {
+      const data = querySnapshot.docs[0].data();
+
+      setUserFound({
+        uid: data.uid,
+        email: data.email,
+        name: data.name,
+        username: data.username,
+        photoURL: data.photoURL,
+      });
+    }
+  };
+
+  // Verificar se há disponibilidade de um username
+  const usernameAvailable = async (username: string) => {
+    const querySnapshot = await getDocs(
+      query(usersCollection, where("username", "==", username))
+    );
+    return querySnapshot.empty;
+  };
+
+  // Atualizando a foto do usuario
+  const handleUpdateAvatar = async (photoURL: string) => {
+    if (user) {
+      // Criando a referencia para o arquivo
+      const userRef = doc(usersCollection, user.uid);
+      // Atualizando o documento do usuario com a nova foto
+      await setDoc(userRef, { photoURL }, { merge: true });
+      // Atualizando o estado do usuario com a nova foto
+      setUser({ ...user, photoURL });
+    }
+  };
 
   // Criando URL da foto do usuario
   const getPhotoURL = async (photo: any) => {
@@ -269,6 +280,18 @@ export function AuthProvider({ children }: any) {
     });
   };
 
+  // Verificando o estado do usuario
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (user) => {
+      if (user?.uid) createUserObject(user);
+      else setUser(null);
+    });
+
+    return () => {
+      unsub();
+    };
+  }, []);
+
   const value = {
     user,
     setUser,
@@ -279,6 +302,7 @@ export function AuthProvider({ children }: any) {
     usersCollection,
     handleUpdateAvatar,
     photo,
+    chats,
     setPhoto,
     getPhotoURL,
     usernameAvailable,

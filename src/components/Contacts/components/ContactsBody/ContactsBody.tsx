@@ -1,22 +1,23 @@
 import React from "react";
 import { Avatar, Flex, Text } from "@chakra-ui/react";
-import { useApp } from "../../../../context";
+import { useApp, useAuth } from "../../../../context";
 
 export const ContactsBody: React.FC = () => {
-  const { contacts, setContactSelected, filterContact }: any = useApp();
+  const { chats }: any = useAuth()
+  const { setContactSelected, filterContact }: any = useApp();
 
   const handleContactSelection = (id: number) => {
-    if (contacts) {
-      const user = contacts.find((contact: any) => contact.id === id);
+    if (chats) {
+      const user = chats.find((contact: any) => contact.id === id);
       setContactSelected(user);
     }
   };
 
   return (
     <Flex overflowY="auto" overflowX="hidden" p="0" direction="column">
-      {contacts &&
-        contacts
-          .filter((contact: any) => {
+      {chats &&
+        chats
+        .filter((contact: any) => {
             if (filterContact) {
               return contact.name
                 .toLowerCase()
@@ -25,7 +26,8 @@ export const ContactsBody: React.FC = () => {
               return contact;
             }
           })
-          .map((contact: any) => (
+        .map((contact: any) => {
+          return (
             <Flex direction="column" key={contact.id}>
               <hr />
               <Flex
@@ -46,7 +48,7 @@ export const ContactsBody: React.FC = () => {
                 </Flex>
               </Flex>
             </Flex>
-          ))}
+          )})}
     </Flex>
   );
 };
