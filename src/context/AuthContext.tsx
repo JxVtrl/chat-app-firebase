@@ -5,14 +5,13 @@ import React, {
   useState,
   useRef,
 } from "react";
+
 import { auth, storage, db } from "../firebase";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { iUser } from "../interfaces";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import {
   collection,
   doc,
@@ -22,11 +21,9 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
-interface AuthError {
-  code: string;
-  message: string;
-}
+import { iUser, AuthError } from "../interfaces";
 
 const AuthContext = createContext({});
 
@@ -112,7 +109,6 @@ export function AuthProvider({ children }: any) {
     }
   };
 
-
   // Criando o state User com as informações do usuario
   const createUserObject = (user: any) => {
     if (user) {
@@ -183,10 +179,8 @@ export function AuthProvider({ children }: any) {
   // Verificando o estado do usuario
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
-      if (user?.uid)
-        createUserObject(user);
-      else 
-        setUser(null);
+      if (user?.uid) createUserObject(user);
+      else setUser(null);
     });
 
     return () => {
