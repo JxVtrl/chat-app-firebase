@@ -19,7 +19,8 @@ import { ArrowForwardIcon } from "@chakra-ui/icons";
 export const Search: React.FC = () => {
   const [search, setSearch] = useState<string>("");
   const { menuOpened, setMenuOpened }: any = useApp();
-  const { allUsers, findUser, userFound, addChats }: any = useAuth();
+  const { allUsers, findUser, userFound, addChats, setUserFound }: any =
+    useAuth();
 
   useEffect(() => {
     const resetSearch = () => [setSearch("")];
@@ -31,17 +32,24 @@ export const Search: React.FC = () => {
 
   const handleSelectSearch = () => {
     if (userFound?.username) addChats(search);
+    handleClose();
     // fechar modal de pesquisa
     // adicionar novo chat na coleção de chats do usuário
     // abrir o chat com o usuário selecionado
+  };
+
+  const handleClose = () => {
+    setSearch("");
+    setMenuOpened(undefined);
+    setUserFound(null);
   };
 
   return (
     <Modal
       isOpen={menuOpened == 2}
       // isOpen={true}
-      onClose={() => setMenuOpened(undefined)}
-      onOverlayClick={() => setMenuOpened(undefined)}
+      onClose={() => handleClose()}
+      onOverlayClick={() => handleClose()}
     >
       <ModalOverlay />
       <ModalContent px="20px" py="25px">

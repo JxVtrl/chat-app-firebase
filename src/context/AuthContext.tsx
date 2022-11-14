@@ -90,6 +90,7 @@ export function AuthProvider({ children }: any) {
         values.email,
         values.password
       );
+
       const uid = userCredential.user.uid;
 
       const querySnapshot = await getDocs(
@@ -106,7 +107,7 @@ export function AuthProvider({ children }: any) {
         email: data.email,
       });
 
-      getChats()
+      getChats();
 
       redirect();
     } catch (error: any) {
@@ -134,24 +135,25 @@ export function AuthProvider({ children }: any) {
   };
 
   // Criando o Objeto de chat do usuário
-  const createChatObject = () => { };
-  
+  const createChatObject = () => {};
+
   // Pegando todos os chats do user logado
   const getChats = async () => {
     if (user) {
       // Criando referencia para o arquivo
-      const chatRef = doc(chatsCollection, user.uid)
-      await getDoc(chatRef).then(doc => {
-        if (doc.exists()) {
-          console.log(doc.data())
-          const chat = doc.data().chats
-          console.log(chat)
-          setChats(chat)
-        }
-      })
-      .catch(err => console.log(err))
+      const chatRef = doc(chatsCollection, user.uid);
+      await getDoc(chatRef)
+        .then((doc) => {
+          if (doc.exists()) {
+            console.log(doc.data());
+            const chat = doc.data().chats;
+            console.log(chat);
+            setChats(chat);
+          }
+        })
+        .catch((err) => console.log(err));
     }
-  }
+  };
 
   // Adicionando um novo chat para o usuário
   const addChats = async (username: string) => {
@@ -185,6 +187,7 @@ export function AuthProvider({ children }: any) {
             uid: userFound?.uid,
             name: userFound?.name,
             username: userFound?.username,
+            photoURL: userFound?.photoURL,
             chat: [],
           },
         ],
@@ -197,13 +200,14 @@ export function AuthProvider({ children }: any) {
             uid: userFound?.uid,
             name: userFound?.name,
             username: userFound?.username,
+            photoURL: userFound?.photoURL,
             chat: [],
           },
         ],
       });
     }
 
-    getChats()
+    getChats();
 
     // add doc to chats colletion in user.uid document
   };
@@ -213,6 +217,16 @@ export function AuthProvider({ children }: any) {
     if (user) {
       // Criando a referencia para o arquivo
       const userRef = doc(usersCollection, user.uid);
+
+      // Validar disponibilidade do username
+      const querySnapshot = await getDocs(
+        query(usersCollection, where("username", "==", username))
+      );
+
+      if (querySnapshot.docs.length > 0) {
+        return;
+      }
+
       // Atualizando o documento do usuario com o novo username
       await setDoc(userRef, { username }, { merge: true });
       // Atualizando o estado do usuario com o novo username

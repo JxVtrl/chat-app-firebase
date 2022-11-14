@@ -25,7 +25,10 @@ export const ChatHeader: React.FC = () => {
               onClick={() => setContactSelected(undefined)}
             />
           )}
-          <Avatar name={contactSelected?.name} />
+          <Avatar
+            src={contactSelected?.photoURL}
+            name={contactSelected?.name}
+          />
           <Flex w="100%" align="center" justify="space-between">
             <Flex direction="column">
               <Text fontSize="16px">{contactSelected?.name}</Text>

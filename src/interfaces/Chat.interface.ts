@@ -4,6 +4,7 @@ export interface iChat {
     uid: string;
     name: string;
     username: string;
+    photoURL: string;
     chat: {
       id: number;
       message: string;
