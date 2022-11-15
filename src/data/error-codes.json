@@ -9,6 +9,41 @@
       "id": 1,
       "code": "auth/wrong-password",
       "message": "Senha incorreta"
+    },
+    {
+      "id": 2,
+      "code": "auth/invalid-email",
+      "message": "E-mail inválido"
+    },
+    {
+      "id": 3,
+      "code": "auth/user-not-found",
+      "message": "Usuário não encontrado"
+    },
+    {
+      "id": 4,
+      "code": "auth/weak-password",
+      "message": "Senha fraca"
+    },
+    {
+      "id": 5,
+      "code": "auth/operation-not-allowed",
+      "message": "Operação não permitida"
+    },
+    {
+      "id": 6,
+      "code": "auth/too-many-requests",
+      "message": "Muitas requisições"
+    },
+    {
+      "id": 7,
+      "code": "auth/invalid-credential",
+      "message": "Credencial inválida"
+    },
+    {
+      "id": 8,
+      "code": "auth/invalid-verification-code",
+      "message": "Código de verificação inválido"
     }
   ]
 }

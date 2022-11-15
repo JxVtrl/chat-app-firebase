@@ -18,9 +18,15 @@ import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 export const Search: React.FC = () => {
   const [search, setSearch] = useState<string>("");
-  const { menuOpened, setMenuOpened }: any = useApp();
-  const { allUsers, findUser, userFound, addChats, setUserFound }: any =
-    useAuth();
+  const { menuOpened, setMenuOpened, setContactSelected }: any = useApp();
+  const {
+    allUsers,
+    findUser,
+    userFound,
+    addChats,
+    setUserFound,
+    getChats,
+  }: any = useAuth();
 
   useEffect(() => {
     const resetSearch = () => [setSearch("")];
@@ -32,10 +38,9 @@ export const Search: React.FC = () => {
 
   const handleSelectSearch = () => {
     if (userFound?.username) addChats(search);
+    setContactSelected(userFound);
+    getChats();
     handleClose();
-    // fechar modal de pesquisa
-    // adicionar novo chat na coleção de chats do usuário
-    // abrir o chat com o usuário selecionado
   };
 
   const handleClose = () => {

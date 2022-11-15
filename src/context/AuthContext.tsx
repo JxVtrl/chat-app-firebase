@@ -322,6 +322,8 @@ export function AuthProvider({ children }: any) {
     usernameAvailable,
     findUser,
     userFound,
+    setUserFound,
+    getChats,
     addChats,
   };
 

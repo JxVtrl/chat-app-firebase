@@ -8,6 +8,7 @@ import { iMessage } from "../../../../interfaces";
 
 export const ChatBody: React.FC = () => {
   const { contactSelected }: any = useApp();
+  const { chats }: any = useAuth()
   const bottomRef = useRef<null | HTMLDivElement>(null);
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export const ChatBody: React.FC = () => {
       p="15px 25px"
     >
       {contactSelected &&
-        userChats?.chats[contactSelected.id]?.chat?.map(
+        chats[contactSelected.id]?.chat?.map(
           ({ id, active, message, timestamp }: iMessage) => (
             <Message
               key={id}
