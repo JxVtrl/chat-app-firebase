@@ -1,6 +1,6 @@
 import React from "react";
 import { Avatar, Flex, Text } from "@chakra-ui/react";
-import { useApp, useAuth } from "../../../../context";
+import { useApp, useAuth } from "src/context";
 
 export const ContactsBody: React.FC = () => {
   const { chats }: any = useAuth();

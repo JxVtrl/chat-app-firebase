@@ -22,14 +22,14 @@ import {
   FormHelperText,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
-import { useAuth } from "../../context";
+import { useAuth } from "src/context";
 import {
   validateName,
   validateConfirm,
   validateEmail,
   validatePassword,
-} from "../../helpers";
-import errorCodes from "../../data/error-codes.json";
+} from "src/helpers";
+import errorCodes from "src/data/error-codes.json";
 
 export function Register() {
   const { handleRegister, registerError, usernameAvailable }: any = useAuth();

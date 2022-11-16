@@ -8,7 +8,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 
-import { Home, Login, Register } from "../pages";
+import { Home, Login, Register } from "src/pages";
 import { Private } from "./Private";
 
 export const routesObject = {

@@ -6,7 +6,7 @@ import React, {
   useRef,
 } from "react";
 
-import { auth, storage, db } from "../firebase";
+import { auth, storage, db } from "src/firebase";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -23,7 +23,7 @@ import {
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
-import { iUser, AuthError, iChat } from "../interfaces";
+import { iUser, AuthError, iChat } from "src/interfaces";
 
 const AuthContext = createContext({});
 
@@ -145,7 +145,6 @@ export function AuthProvider({ children }: any) {
       await getDoc(chatRef)
         .then((doc) => {
           if (doc.exists()) {
-            console.log(doc.data());
             const chat = doc.data().chats;
             console.log(chat);
             setChats(chat);

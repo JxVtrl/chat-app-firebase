@@ -13,7 +13,7 @@ import {
   Avatar,
   Text,
 } from "@chakra-ui/react";
-import { useApp, useAuth } from "../../context";
+import { useApp, useAuth } from "src/context";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 export const Search: React.FC = () => {

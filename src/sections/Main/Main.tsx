@@ -1,8 +1,8 @@
 import React from "react";
 import { Flex, Modal, ModalContent } from "@chakra-ui/react";
-import { Contacts, Chat } from "../../components";
-import { useDevice } from "../../hooks";
-import { useApp } from "../../context";
+import { Contacts, Chat } from "src/components";
+import { useDevice } from "src/hooks";
+import { useApp } from "src/context";
 
 export const Main: React.FC = () => {
   const { isMobile } = useDevice();

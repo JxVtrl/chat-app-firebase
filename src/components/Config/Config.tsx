@@ -9,7 +9,7 @@ import {
   ModalCloseButton,
   Button,
 } from "@chakra-ui/react";
-import { useApp } from "../../context";
+import { useApp } from "src/context";
 
 export const Config: React.FC = () => {
   const { menuOpened, setMenuOpened }: any = useApp();

@@ -20,8 +20,8 @@ import {
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
-import { useApp, useAuth } from "../../context";
-import errorCodes from "../../data/error-codes.json";
+import { useApp, useAuth } from "src/context";
+import errorCodes from "src/data/error-codes.json";
 
 export function Login() {
   const { handleLogin, LoginError, user }: any = useAuth();

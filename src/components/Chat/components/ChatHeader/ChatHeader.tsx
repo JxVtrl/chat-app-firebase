@@ -1,8 +1,8 @@
 import React from "react";
 import { ChevronLeftIcon, SearchIcon } from "@chakra-ui/icons";
 import { Avatar, Flex, Text } from "@chakra-ui/react";
-import { useApp } from "../../../../context";
-import { useDevice } from "../../../../hooks";
+import { useApp } from "src/context";
+import { useDevice } from "src/hooks";
 
 export const ChatHeader: React.FC = () => {
   const { isMobile } = useDevice();

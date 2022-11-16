@@ -12,9 +12,9 @@ import {
   MenuItem,
   IconButton,
 } from "@chakra-ui/react";
-import { useApp, useAuth } from "../../../../context";
+import { useApp, useAuth } from "src/context";
 import { signOut } from "firebase/auth";
-import { auth } from "../../../../firebase";
+import { auth } from "src/firebase";
 
 export const ContactsHeader: React.FC = () => {
   const { setMenuOpened, setFilterContact, filterContact }: any = useApp();

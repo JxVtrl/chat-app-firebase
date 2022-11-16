@@ -1,14 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import { Flex } from "@chakra-ui/react";
-import { useApp, useAuth } from "../../../../context";
-import userChats from "../../../../mocks/my-chat.json";
-import bgDefault from "../../../../assets/img/whatsApp.jpeg";
-import { Message } from "../../../Message";
-import { iMessage } from "../../../../interfaces";
+import { useApp, useAuth } from "src/context";
+import bgDefault from "src/assets/img/whatsApp.jpeg";
+import { Message } from "src/components/Message";
+import { iMessage } from "src/interfaces";
 
 export const ChatBody: React.FC = () => {
   const { contactSelected }: any = useApp();
-  const { chats }: any = useAuth()
+  const { chats }: any = useAuth();
   const bottomRef = useRef<null | HTMLDivElement>(null);
 
   useEffect(() => {

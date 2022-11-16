@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Flex } from "@chakra-ui/react";
-import { Main } from "../../sections";
-import { Profile, Config, Search } from "../../components";
+import { Main } from "src/sections";
+import { Profile, Config, Search } from "src/components";
 
 export function Home() {
   return (

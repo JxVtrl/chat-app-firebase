@@ -1,6 +1,6 @@
 import React from "react";
 import { Flex } from "@chakra-ui/react";
-import { useDevice } from "../../hooks";
+import { useDevice } from "src/hooks";
 import { ContactsBody, ContactsHeader } from "./components";
 
 export const Contacts: React.FC = () => {

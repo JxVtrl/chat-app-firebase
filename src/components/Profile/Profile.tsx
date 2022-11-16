@@ -15,7 +15,7 @@ import {
   Text,
   Avatar,
 } from "@chakra-ui/react";
-import { useApp, useAuth } from "../../context";
+import { useApp, useAuth } from "src/context";
 import { Field, Form, Formik } from "formik";
 
 export const Profile: React.FC = () => {

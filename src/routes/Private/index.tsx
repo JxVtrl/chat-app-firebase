@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../../context";
-import { iPrivate } from "../../interfaces";
+import { useAuth } from "src/context";
+import { iPrivate } from "src/interfaces";
 
 export const Private: FC<iPrivate> = ({ children }) => {
   const { user }: any = useAuth();
